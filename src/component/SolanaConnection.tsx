@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import * as web3 from '@solana/web3.js';
 import * as walletAdapterReact from '@solana/wallet-adapter-react'; 
@@ -8,71 +7,55 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
 const SolanaConnection = () => {
-    // allows us to add the wallet account balance to our react function component
     const [balance, setBalance] = React.useState<number | null>(0);
-    // we specify which network we want to connect to
     const endpoint = web3.clusterApiUrl('devnet');
-    // we specify which wallets we want our wallet adapter to support
     const wallets = [
         new walletAdapterWallets.PhantomWalletAdapter()
     ];
 
-    // connection context object that is injected into the browser by the wallet
     const { connection } = useConnection();
-    // user's public key of the wallet they connected to our application
     const { publicKey } = useWallet();
 
-    // when the status of `connection` or `publicKey` changes, we execute the code block below
     React.useEffect(() => {
         const getInfo = async () => {
             if (connection && publicKey) {
-                // we get the account info for the user's wallet data store and set the balance in our application's state
                 const info = await connection.getAccountInfo(publicKey);
                 setBalance(info!.lamports / web3.LAMPORTS_PER_SOL);
             }
         }
         getInfo();
-        // the code above will execute whenever these variables change in any way
     }, [connection, publicKey]);
 
     return (
         <>
-            {/* provides a connection to the solana json rpc api */}
             <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
-                {/* makes the wallet adapter available to the entirety of our application (wrapped in this component) */}
                 <walletAdapterReact.WalletProvider wallets={wallets}>
-                    {/* provides components to the wrapped application */}
                     <WalletModalProvider>
-                        <main className='min-h-screen text-white'>
-                            <div className='grid grid-cols-1 lg:grid-cols-4 gap-4 p-4'>
-                                <div className='col-span-1 lg:col-start-2 lg:col-end-4 rounded-lg bg-[#2a302f] h-60 p-4'>
-                                    <div className='flex justify-between items-center'>
-                                        <h2 className='text-3xl font-semibold'>
-                                            account info ✨
-                                        </h2>
-                                        {/* button component for connecting to solana wallet */}
-                                        <WalletMultiButton
-                                            className='!bg-helius-orange !rounded-xl hover:!bg-[#161b19] transition-all duration-200'
-                                        />
-                                    </div>
+                        <main className='min-h-screen flex items-center justify-center bg-gray-900 text-white'>
+                            <div className='max-w-lg w-full bg-gray-800 p-6 rounded-xl shadow-lg'>
+                                <div className='flex justify-between items-center'>
+                                    <h1 className='text-2xl font-semibold'>Solana Wallet</h1>
+                                    <WalletMultiButton
+                                        className='!bg-indigo-600 !text-white !rounded-lg px-4 py-2 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500'
+                                    />
+                                </div>
 
-                                    <div className='mt-8 bg-[#222524] border-2 border-gray-500 rounded-lg p-2'>
-                                        <ul className='p-2'>
-                                            <li className='flex justify-between'>
-                                                <p className='tracking-wider'>Wallet is connected...</p>
-                                                <p className='text-helius-orange italic font-semibold'>
-                                                    {publicKey ? 'yes' : 'no'}
-                                                </p>
-                                            </li>
-                                            
-                                            <li className='text-sm mt-4 flex justify-between'>
-                                                <p className='tracking-wider'>Balance...</p>
-                                                <p className='text-helius-orange italic font-semibold'>
-                                                    {balance}
-                                                </p>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <div className='mt-8 bg-gray-700 border border-gray-600 rounded-lg p-4'>
+                                    <ul className='space-y-4'>
+                                        <li className='flex justify-between items-center'>
+                                            <p className='tracking-wide text-lg'>Wallet is connected:</p>
+                                            <p className='text-indigo-400 font-semibold'>
+                                                {publicKey ? 'Yes' : 'No'}
+                                            </p>
+                                        </li>
+
+                                        <li className='flex justify-between items-center'>
+                                            <p className='tracking-wide text-lg'>Balance:</p>
+                                            <p className='text-indigo-400 font-semibold'>
+                                                {balance !== null ? `${balance.toFixed(2)} SOL` : 'N/A'}
+                                            </p>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </main>
