@@ -7,9 +7,9 @@ const App: React.FC = () => {
 
   return (
     <div>
-        <div className="solana-connection">
-          <WalletConnectButton className='!bg-helius-orange hover:!bg-black transition-all duration-200 !rounded-lg' />
-        </div>
+      <div className="solana-connection">
+        <SolanaConnection />
+      </div>
     </div>
   );
 };
