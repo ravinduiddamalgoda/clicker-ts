@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useMemo, ReactNode } from "react";
 import { myConstants } from "./config/config";
+import { GameContext } from "./context/GameContext";
 
 interface GameData {
   userId: number;
@@ -8,25 +9,10 @@ interface GameData {
   level: number;
   lastUpdated: number;
 }
-
-interface ContextGameData {
-  fCount: number;
-  level: number;
-  myConstants: typeof myConstants;
-  F$rate: number;
-  levelupRate: number;
-  isLoading: boolean;
-  currentView: string;
-  setCurrentView: React.Dispatch<React.SetStateAction<string>>;
-  setfCount: React.Dispatch<React.SetStateAction<number>>;
-  setLevel: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const GameContext = createContext<ContextGameData | undefined>(undefined);
-
 interface ProviderProps {
   children: ReactNode;
 }
+
 
 function Provider({ children }: ProviderProps) {
   const [storedData, setStoredData] = useState<GameData | null>(null);
@@ -114,14 +100,11 @@ function Provider({ children }: ProviderProps) {
   }, [counter, gameData]);
 
   return (
-    <GameContext.Provider value={contextGameData}>
-      {children}
-    </GameContext.Provider>
+    <GameContext.Provider value={contextGameData}>{children}</GameContext.Provider>
   );
+  
 }
 
-export { Provider };
-export default GameContext;
 
 function getGameData(): GameData | null {
   const data = localStorage.getItem("gameData") || "[]";
@@ -138,3 +121,4 @@ function saveGameData(gameData: GameData | null): void {
     localStorage.setItem("gameData", JSON.stringify(gameData));
   }
 }
+

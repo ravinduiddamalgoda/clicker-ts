@@ -1,26 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import '@solana/wallet-adapter-react-ui/styles.css';
+import React, { useMemo } from "react";
+import SolanaConnection from "./component/SolanaConnection";
 
-function App() {
+const App: React.FC = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Multi-Blockchain Wallet Connection</h1>
+            <div className="solana-connection">
+              <h2>Solana Wallet</h2>
+              <SolanaConnection />
+            </div>
     </div>
   );
-}
+};
 
 export default App;
