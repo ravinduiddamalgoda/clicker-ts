@@ -8,28 +8,26 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
 const SolanaConnection = () => {
     const [balance, setBalance] = React.useState<number | null>(0);
-    const endpoint = web3.clusterApiUrl('devnet');
-    const wallets = [
-        new walletAdapterWallets.PhantomWalletAdapter()
-    ];
+    const endpoint = web3.clusterApiUrl('mainnet-beta');
+    const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
 
     const { connection } = useConnection();
     const { publicKey } = useWallet();
 
     React.useEffect(() => {
-        const getInfo = async () => {
+        const getBalances = async () => {
             if (connection && publicKey) {
                 const info = await connection.getAccountInfo(publicKey);
                 setBalance(info!.lamports / web3.LAMPORTS_PER_SOL);
             }
-        }
-        getInfo();
+        };
+        getBalances();
     }, [connection, publicKey]);
 
     return (
         <>
             <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
-                <walletAdapterReact.WalletProvider wallets={wallets}>
+                <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
                     <WalletModalProvider>
                         <main className='min-h-screen flex items-center justify-center bg-gray-900 text-white'>
                             <div className='max-w-lg w-full bg-gray-800 p-6 rounded-xl shadow-lg'>
