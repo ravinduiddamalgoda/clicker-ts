@@ -8,17 +8,25 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
 const SolanaConnection = () => {
     const [balance, setBalance] = React.useState<number | null>(0);
+    
+    // Use the custom RPC endpoint if you have one
     const endpoint = web3.clusterApiUrl('mainnet-beta');
-    const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
 
+    const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
     const { connection } = useConnection();
     const { publicKey } = useWallet();
 
     React.useEffect(() => {
         const getBalances = async () => {
             if (connection && publicKey) {
-                const info = await connection.getAccountInfo(publicKey);
-                setBalance(info!.lamports / web3.LAMPORTS_PER_SOL);
+                try {
+                    // Fetch SOL balance directly
+                    const lamports = await connection.getBalance(publicKey);
+                    setBalance(lamports / web3.LAMPORTS_PER_SOL);
+                } catch (error) {
+                    console.error("Failed to fetch SOL balance:", error);
+                    setBalance(null); // Set balance to null if there's an error
+                }
             }
         };
         getBalances();
@@ -48,9 +56,9 @@ const SolanaConnection = () => {
                                         </li>
 
                                         <li className='flex justify-between items-center'>
-                                            <p className='tracking-wide text-lg'>Balance:</p>
+                                            <p className='tracking-wide text-lg'>SOL Balance:</p>
                                             <p className='text-indigo-400 font-semibold'>
-                                                {balance !== null ? `${balance.toFixed(2)} SOL` : 'N/A'}
+                                                {balance !== null ? `${balance.toFixed(4)} SOL` : 'N/A'}
                                             </p>
                                         </li>
                                     </ul>
