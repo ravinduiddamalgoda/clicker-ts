@@ -3,6 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 
+// Polyfill for Buffer and process
+import { Buffer } from 'buffer';
+global.Buffer = Buffer;
+
+import process from 'process';
+global.process = process;
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
