@@ -9,8 +9,9 @@ import {
     createTransferInstruction,
     TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-require('@solana/wallet-adapter-react-ui/styles.css');
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+
+import '@solana/wallet-adapter-react-ui/styles.css';
 
 const SolanaConnection = () => {
     const [balance, setBalance] = React.useState<number | null>(0);
