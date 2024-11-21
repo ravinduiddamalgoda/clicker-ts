@@ -1,82 +1,80 @@
-// import React, { useState, useEffect, useContext, useMemo } from 'react';
-// import globalContext from '../globalContext';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { GameContext } from '../context/GameContext';
 
-// // Define the props for the context values
-// interface GlobalContextProps {
-//   fCount: number;
-//   level: number;
-//   levelupRate: number;
-//   myConstants: {
-//     miner_base_cost: number;
-//   };
-//   setfCount: React.Dispatch<React.SetStateAction<number>>;
-//   setLevel: React.Dispatch<React.SetStateAction<number>>;
-//   currentView: string;
-//   setCurrentView: React.Dispatch<React.SetStateAction<string>>;
-// }
+interface GlobalContextProps {
+  fCount: number;
+  level: number;
+  levelupRate: number;
+  myConstants: {
+    miner_base_cost: number;
+  };
+  setfCount: React.Dispatch<React.SetStateAction<number>>;
+  setLevel: React.Dispatch<React.SetStateAction<number>>;
+  currentView: string;
+  setCurrentView: React.Dispatch<React.SetStateAction<string>>;
+}
 
-// const Footer: React.FC = () => {
-//   const {
-//     fCount,
-//     level,
-//     levelupRate,
-//     myConstants,
-//     setfCount,
-//     setLevel,
-//     currentView,
-//     setCurrentView,
-//   } = useContext(globalContext) as GlobalContextProps;
+const Footer: React.FC = () => {
+  const {
+    fCount,
+    level,
+    levelupRate,
+    myConstants,
+    setfCount,
+    setLevel,
+    setCurrentView,
+  } = useContext(GameContext) as GlobalContextProps;
 
-//   const [enoughF$, setEnoughF$] = useState<boolean>(false);
+  const [enoughF$, setEnoughF$] = useState(false);
 
-//   const requiredF$ = useMemo(() => {
-//     return LevelUpCost(myConstants.miner_base_cost, levelupRate, level);
-//   }, [myConstants.miner_base_cost, levelupRate, level]);
+  const requiredF$ = useMemo(
+    () => LevelUpCost(myConstants.miner_base_cost, levelupRate, level),
+    [myConstants.miner_base_cost, levelupRate, level]
+  );
 
-//   const handleLevelUpgrade = () => {
-//     if (enoughF$) {
-//       setLevel(level + 1);
-//       setfCount(fCount - requiredF$);
-//     }
-//   };
+  const handleLevelUpgrade = () => {
+    if (enoughF$) {
+      setLevel(level + 1);
+      setfCount(fCount - requiredF$);
+    }
+  };
 
-//   const handleViewClick = (view: string) => {
-//     setCurrentView(view);
-//   };
+  useEffect(() => {
+    setEnoughF$(fCount >= requiredF$);
+  }, [fCount, level, requiredF$]);
 
-//   useEffect(() => {
-//     setEnoughF$(fCount >= requiredF$);
-//   }, [fCount, level]);
+  return (
+    <div className="fixed bottom-0 w-full bg-gray-900 text-white py-4">
+      <div className="flex justify-evenly">
+        <button
+          className={`p-2 rounded-lg ${
+            enoughF$
+              ? 'bg-green-500 hover:bg-green-600'
+              : 'bg-gray-600 cursor-not-allowed'
+          }`}
+          onClick={handleLevelUpgrade}
+        >
+          Upgrade
+        </button>
+        <button
+          className="p-2 bg-blue-500 rounded-lg hover:bg-blue-600"
+          onClick={() => setCurrentView('BoostPage')}
+        >
+          Boost
+        </button>
+        <button className="p-2 bg-purple-500 rounded-lg hover:bg-purple-600">
+          Subscribe
+        </button>
+        <button className="p-2 bg-orange-500 rounded-lg hover:bg-orange-600">
+          Tasks
+        </button>
+      </div>
+    </div>
+  );
+};
 
-//   return (
-//     <div className="flex justify-evenly items-center w-full">
-//       <div
-//         className={`flex-1 text-center p-2 border border-gray-300 rounded cursor-pointer ${
-//           enoughF$ ? '' : 'bg-gray-400 cursor-not-allowed opacity-60'
-//         }`}
-//         onClick={handleLevelUpgrade}
-//       >
-//         Upgrade
-//       </div>
-//       <div
-//         className="flex-1 text-center p-2 border border-gray-300 rounded cursor-pointer"
-//         onClick={() => handleViewClick('BoostPage')}
-//       >
-//         Boost
-//       </div>
-//       <div className="flex-1 text-center p-2 border border-gray-300 rounded cursor-pointer">
-//         Subscribe
-//       </div>
-//       <div className="flex-1 text-center p-2 border border-gray-300 rounded cursor-pointer">
-//         Tasks
-//       </div>
-//     </div>
-//   );
-// };
+export default Footer;
 
-// export default Footer;
-
-// function LevelUpCost(baseCost: number, levelUpRate: number, level: number): number {
-//   return baseCost * levelUpRate * (level + 1);
-// }
-export {};
+function LevelUpCost(baseCost: number, levelUpRate: number, level: number): number {
+  return baseCost * levelUpRate * (level + 1);
+}

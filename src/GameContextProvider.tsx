@@ -14,7 +14,7 @@ interface ProviderProps {
 }
 
 
-function Provider({ children }: ProviderProps) {
+export function Provider({ children }: ProviderProps) {
   const [storedData, setStoredData] = useState<GameData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [gameData, setGameData] = useState<GameData | null>(null);

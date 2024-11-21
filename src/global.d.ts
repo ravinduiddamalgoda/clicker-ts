@@ -14,3 +14,16 @@ export interface GameData {
   level: number;
   lastUpdated: number;
 }
+export interface GlobalContextProps {
+  fCount: number;
+  level: number;
+  levelupRate: number;
+  isLoading : boolean;
+  myConstants: {
+    miner_base_cost: number;
+  };
+  setfCount: React.Dispatch<React.SetStateAction<number>>;
+  setLevel: React.Dispatch<React.SetStateAction<number>>;
+  currentView: string;
+  setCurrentView: React.Dispatch<React.SetStateAction<string>>;
+}

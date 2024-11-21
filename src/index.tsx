@@ -6,6 +6,7 @@ import App from './App';
 // Polyfill for Buffer and process
 import { Buffer } from 'buffer';
 import process from 'process';
+import { Provider } from './GameContextProvider';
 
 global.Buffer = Buffer;
 global.process = process;
@@ -15,7 +16,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider>
+      <App />
+    </Provider>
   </React.StrictMode>         
 );
 
