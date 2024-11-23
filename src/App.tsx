@@ -45,10 +45,6 @@ const App = () => {
               <p>Loading...</p>
             ) : (
               <>
-                <header className="App-header">
-                  <h1>F$ : {formatNumberWithCommas(fCount)}</h1>
-                </header>
-
                 <main className="App-main">
                   {currentView === "MainSection" && <MainSection />}
                   {currentView === "BoostPage" && <BoostPage />}
