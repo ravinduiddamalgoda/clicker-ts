@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { GameContext } from '../context/GameContext';
+import { levelMax } from "../constants/leveldata";
 
 interface GlobalContextProps {
   fCount: number;
@@ -25,6 +26,12 @@ const Footer: React.FC = () => {
     setCurrentView,
   } = useContext(GameContext) as GlobalContextProps;
 
+  const updatelevel = () => {
+    if(fCount > levelMax[level-1]){
+      setLevel(level+1)
+    }
+  }
+
   const [enoughF$, setEnoughF$] = useState(false);
 
   const requiredF$ = useMemo(
@@ -44,28 +51,28 @@ const Footer: React.FC = () => {
   }, [fCount, level, requiredF$]);
 
   return (
-    <div className="fixed bottom-0 w-full bg-gray-900 text-white py-4">
-      <div className="flex justify-evenly">
+    <div className="fixed bottom-0 w-full bg-gray-900 text-white py-4 font-spicyrice">
+      <div className="flex justify-evenly text-xl py-4">
         <button
-          className={`p-2 rounded-lg ${
-            enoughF$
-              ? 'bg-green-500 hover:bg-green-600'
-              : 'bg-gray-600 cursor-not-allowed'
+          className={`p-2 rounded-lg w-32 ${
+            fCount > levelMax[level-1]
+              ? 'bg-vividGreen shadow-vividGreenGlow'
+              : 'bg-charcoalGray shadow-charcoalGrayGlow'
           }`}
-          onClick={handleLevelUpgrade}
+          onClick={updatelevel}
         >
           Upgrade
         </button>
         <button
-          className="p-2 bg-blue-500 rounded-lg hover:bg-blue-600"
+          className="p-2 w-32 bg-royalBlue rounded-lg shadow-royalBlueGlow"
           onClick={() => setCurrentView('BoostPage')}
         >
           Boost
         </button>
-        <button className="p-2 bg-purple-500 rounded-lg hover:bg-purple-600">
+        <button className="p-2 w-32 bg-magentaPurple rounded-lg shadow-glow ">
           Subscribe
         </button>
-        <button className="p-2 bg-orange-500 rounded-lg hover:bg-orange-600">
+        <button className="p-2 w-32 bg-goldenYellow rounded-lg shadow-goldenGlow">
           Tasks
         </button>
       </div>
