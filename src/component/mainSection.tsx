@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { GameContext } from "../context/GameContext";
 import { levelIcons, levelMax } from "../constants/leveldata";
+import FooterMain from "./footerMain";
 
 // Define the context properties for type safety
 interface GlobalContextProps {
@@ -25,7 +26,7 @@ const MainSection: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center text-center py-10">
-      <div className="flex flex-col justify-between items-center bg-gray-800 p-6 py-10 rounded-xl shadow-lg w-80 min-h-[500px]">
+      <div className="flex flex-col justify-between items-center bg-gray-800 px-6 py-10 rounded-xl shadow-lg max-w-[400px] min-h-[600px]">
         <div className="text-4xl font-spicyrice text-goldenYellow uppercase">
           Level {level}
         </div>
@@ -45,6 +46,10 @@ const MainSection: React.FC = () => {
             style={{ width: `${progressPercentage}%` }}
           ></div>
         </div>
+        <div>
+          <FooterMain />
+        </div>
+        
       </div>
     </div>
   );

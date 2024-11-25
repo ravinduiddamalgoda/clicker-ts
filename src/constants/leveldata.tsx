@@ -4,4 +4,4 @@ import level3Icon from '../assets/levels/level3.jpg';
 
 export const levelIcons = [level1Icon, level2Icon, level3Icon];
 
-export const levelMax = [50000, 200000, 600000];
+export const levelMax = [13000, 200000, 600000];

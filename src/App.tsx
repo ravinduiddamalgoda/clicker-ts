@@ -50,9 +50,9 @@ const App = () => {
                   {currentView === "BoostPage" && <BoostPage />}
                 </main>
 
-                <footer className="App-footer">
+                {/* <footer className="App-footer">
                   <Footer></Footer>
-                </footer>
+                </footer> */}
               </>
             )}
           </div>
