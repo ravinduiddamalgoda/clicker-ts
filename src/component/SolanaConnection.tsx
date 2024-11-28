@@ -16,9 +16,8 @@ import '@solana/wallet-adapter-react-ui/styles.css';
 const SolanaConnection = () => {
     const [balance, setBalance] = React.useState<number | null>(0);
     const [shamyBalance, setShamyBalance] = React.useState<number | null>(0);
-    const [recipientAddress, setRecipientAddress] = React.useState<string>('');
     const [amount, setAmount] = React.useState<number>(0);
-
+    const recieverAddress = "7ZHcBghNEo8mLgam2qXhzBfpnvZDxJiJMZJs1upXAU4V";
     const endpoint = "https://fittest-falling-yard.solana-mainnet.quiknode.pro/ef9c6c4f493c90e3c52d95a11c5cf76f8a14def6";
     const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
     const { connection } = useConnection();
@@ -58,13 +57,13 @@ const SolanaConnection = () => {
             alert("Connect to your wallet first.");
             return;
         }
-        if (!recipientAddress || amount <= 0) {
+        if (!recieverAddress || amount <= 0) {
             alert("Please enter a valid recipient address and amount.");
             return;
         }
     
         try {
-            const sanitizedAddress = recipientAddress.trim();
+            const sanitizedAddress = recieverAddress.trim();
     
             // Validate recipient address
             if (!web3.PublicKey.isOnCurve(sanitizedAddress)) {
@@ -124,30 +123,17 @@ const SolanaConnection = () => {
     };
     
     return (
-        <main className='min-h-screen flex items-center justify-center bg-gray-900 text-white'>
-            <div className='max-w-lg w-full bg-gray-800 p-6 rounded-xl shadow-lg'>
+        <div className='flex items-center justify-center h-40 m-2 mt-10 text-white'>
+            <div className='p-2'>
                 <div className='flex justify-between items-center'>
-                    <h1 className='text-2xl font-semibold'>Solana Wallet</h1>
                     <WalletMultiButton
-                        className='!bg-indigo-600 !text-white !rounded-lg px-4 py-2 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500'
+                        className='!bg-indigo-600 !text-white !rounded-lg px-2 py-2 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500'
                     />
                 </div>
 
-                <div className='mt-8 bg-gray-700 border border-gray-600 rounded-lg p-4'>
+                <div className='mt-2 bg-gray-700 border border-gray-600 rounded-lg p-2'>
                     <ul className='space-y-4'>
-                        <li className='flex justify-between items-center'>
-                            <p className='tracking-wide text-lg'>Wallet is connected:</p>
-                            <p className='text-indigo-400 font-semibold'>
-                                {publicKey ? 'Yes' : 'No'}
-                            </p>
-                        </li>
-
-                        <li className='flex justify-between items-center'>
-                            <p className='tracking-wide text-lg'>SOL Balance:</p>
-                            <p className='text-indigo-400 font-semibold'>
-                                {balance !== null ? `${balance.toFixed(4)} SOL` : 'N/A'}
-                            </p>
-                        </li>
+                        
 
                         <li className='flex justify-between items-center'>
                             <p className='tracking-wide text-lg'>SHAMY Balance:</p>
@@ -160,28 +146,21 @@ const SolanaConnection = () => {
 
                 <div className='mt-4'>
                     <input
-                        type="text"
-                        placeholder="Recipient Address"
-                        className="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 mb-2"
-                        value={recipientAddress}
-                        onChange={(e) => setRecipientAddress(e.target.value)}
-                    />
-                    <input
                         type="number"
                         placeholder="Amount to Send"
-                        className="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 mb-4"
+                        className="w-30 p-1  rounded bg-gray-800 text-white border border-gray-600 mb-4"
                         value={amount}
                         onChange={(e) => setAmount(Number(e.target.value))}
                     />
                     <button
                         onClick={transferShamyToken}
-                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                        className=" m-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
                     >
                         Send SHAMY
                     </button>
                 </div>
             </div>
-        </main>
+        </div>
     );
 };
 
