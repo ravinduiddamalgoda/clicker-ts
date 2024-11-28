@@ -21,6 +21,8 @@ interface ContextGameData {
   setCurrentView: React.Dispatch<React.SetStateAction<string>>;
   setfCount: React.Dispatch<React.SetStateAction<number>>;
   setLevel: React.Dispatch<React.SetStateAction<number>>;
+  setF$rate: React.Dispatch<React.SetStateAction<number>>;
+  // setLevelupRate: React.Dispatch<React.SetStateAction<number>>; 
 }
 
 export const GameContext = createContext<ContextGameData | undefined>(undefined);

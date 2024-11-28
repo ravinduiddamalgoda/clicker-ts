@@ -2,6 +2,7 @@ import { createContext, useState, useEffect, useMemo, ReactNode } from "react";
 import { myConstants } from "./config/config";
 import { GameContext } from "./context/GameContext";
 
+
 interface GameData {
   userId: number;
   userName: string;
@@ -65,6 +66,7 @@ export function Provider({ children }: ProviderProps) {
       setCurrentView,
       setfCount,
       setLevel,
+      setF$rate
     }),
     [fCount, level, myConstants, F$rate, levelupRate, isLoading]
   );

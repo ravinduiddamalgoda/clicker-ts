@@ -7,8 +7,8 @@ import SolanaConnection from "./component/SolanaConnection";
 import MainSection from "./component/mainSection";
 import { BoostPage } from "./component/boostPage";
 import Footer from "./component/footer";
-import { GameContext } from "./context/GameContext";
 import { GlobalContextProps } from "./global";
+import { GameContext } from "./context/GameContext";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 // const App = () => {

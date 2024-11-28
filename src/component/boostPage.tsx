@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect, useContext, useMemo } from "react";
 import { Validate } from "./hookFunctions";
 import { GameContext } from "../context/GameContext";
 import FooterMain from "./footerMain";
@@ -6,6 +6,7 @@ import SolanaConnection from "./SolanaConnection";
 import * as walletAdapterReact from "@solana/wallet-adapter-react";
 import * as walletAdapterWallets from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
+import { set } from "firebase/database";
 require("@solana/wallet-adapter-react-ui/styles.css");
 // Type definition for Shamy Wallet data
 interface ShamyWalletData {
@@ -19,16 +20,19 @@ interface GlobalContextProps {
   levelupRate: number;
   myConstants: {
     miner_base_cost: number;
+    F$_Multiplier : number;
   };
   setfCount: React.Dispatch<React.SetStateAction<number>>;
   setLevel: React.Dispatch<React.SetStateAction<number>>;
   currentView: string;
   setCurrentView: React.Dispatch<React.SetStateAction<string>>;
+  setF$rate: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const BoostPage: React.FC = () => {
   const { setCurrentView } = useContext(GameContext) as GlobalContextProps;
   const { fCount ,setfCount , levelupRate } = useContext(GameContext) as GlobalContextProps;
+  const {setF$rate} = useContext(GameContext) as GlobalContextProps;
   const [shamyWallet, setShamyWallet] = useState<ShamyWalletData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -89,13 +93,10 @@ const BoostPage: React.FC = () => {
 }
 
 const applyBoost = () => {
-    // Logic to increase coin generation by 5X
-    // levelupRate(currentRate => currentRate * 5);
-}
-
+   setF$rate(currentRate => currentRate * 2);
+};
 const removeBoost = () => {
-    // Logic to revert coin generation rate back to normal
-    // levelupRate(currentRate => currentRate / 5);
+  setF$rate(currentRate => currentRate / 2);
 }
   const endpoint =
     "https://fittest-falling-yard.solana-mainnet.quiknode.pro/ef9c6c4f493c90e3c52d95a11c5cf76f8a14def6";
@@ -105,15 +106,15 @@ const removeBoost = () => {
       <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
           <div className="flex flex-col items-center justify-center text-center py-10 p-5 ">
-            <div className="grid grid-rows-2 justify-between items-center bg-gray-800 h-screen">
+            <div className="grid grid-rows-2 justify-between items-center bg-gray-800 h-screen rounded-xl shadow-lg">
               <div className="flex flex-col justify-start">
                 <SolanaConnection />
               </div>
 
-              <div className="flex flex-col justify-between p-5">
+              <div className="flex flex-col justify-between px-5">
                 <div className="text-left">
                   <p className="text-white">
-                    Boost Using F$ <br /> For F$ 500,000 a X5 boost will be
+                    Boost Using F$ <br /> For F$ 500,000 a 2X boost will be
                     applied for 1 Hr
                   </p>
                   <div className="flex justify-end">
@@ -123,7 +124,7 @@ const removeBoost = () => {
                   </div>
                 </div>
               </div>
-              <div className="justify-between items-center bg-gray-800">
+              <div className="justify-between items-center bg-gray-800 rounded-xl">
                 <FooterMain />
               </div>
             </div>

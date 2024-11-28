@@ -12,17 +12,33 @@ import {
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
+import { GameContext } from '../context/GameContext';
 
+interface GlobalContextProps {
+    fCount: number;
+    level: number;
+    levelupRate: number;
+    myConstants: {
+      miner_base_cost: number;
+      F$_Multiplier : number;
+    };
+    setfCount: React.Dispatch<React.SetStateAction<number>>;
+    setLevel: React.Dispatch<React.SetStateAction<number>>;
+    currentView: string;
+    setCurrentView: React.Dispatch<React.SetStateAction<string>>;
+    setF$rate: React.Dispatch<React.SetStateAction<number>>;
+  }
+  
 const SolanaConnection = () => {
     const [balance, setBalance] = React.useState<number | null>(0);
     const [shamyBalance, setShamyBalance] = React.useState<number | null>(0);
-    const [amount, setAmount] = React.useState<number>(0);
+    const [amount, setAmount] = React.useState<number>(10000);
     const recieverAddress = "7ZHcBghNEo8mLgam2qXhzBfpnvZDxJiJMZJs1upXAU4V";
     const endpoint = "https://fittest-falling-yard.solana-mainnet.quiknode.pro/ef9c6c4f493c90e3c52d95a11c5cf76f8a14def6";
     const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
-
+    const {setF$rate} = React.useContext(GameContext) as GlobalContextProps;
     const SHAMY_TOKEN_MINT_ADDRESS = "BZJxQ5W4qbEtoo558R5oxsb3aXW7mfgCptDVJ2o4yvXg";
 
     React.useEffect(() => {
@@ -61,6 +77,12 @@ const SolanaConnection = () => {
             alert("Please enter a valid recipient address and amount.");
             return;
         }
+        const applyBoost = () => {
+            setF$rate(currentRate => currentRate * 5);
+         };
+         const removeBoost = () => {
+           setF$rate(currentRate => currentRate / 5);
+         }
     
         try {
             const sanitizedAddress = recieverAddress.trim();
@@ -116,10 +138,20 @@ const SolanaConnection = () => {
             const signature = await sendTransaction(transaction, connection);
             await connection.confirmTransaction(signature, 'confirmed');
             alert("Transfer successful!");
+            applyBoost();
+
+            // Set a timeout to remove the boost after one hour
+            setTimeout(() => {
+                removeBoost();
+                alert("Boost has ended");
+            }, 7200000); // 3600000 milliseconds = 1 hour
         } catch (error) {
             console.error("Failed to transfer SHAMY tokens:", error);
             alert("Transfer failed. Check the console for details.");
         }
+
+
+      
     };
     
     return (
@@ -136,7 +168,7 @@ const SolanaConnection = () => {
                         
 
                         <li className='flex justify-between items-center'>
-                            <p className='tracking-wide text-lg'>SHAMY Balance:</p>
+                            <p className='tracking-wide text-lg'>SHAMY Balance: </p>
                             <p className='text-indigo-400 font-semibold'>
                                 {shamyBalance !== null ? `${shamyBalance.toFixed(4)} SHAMY` : 'N/A'}
                             </p>
@@ -145,13 +177,13 @@ const SolanaConnection = () => {
                 </div>
 
                 <div className='mt-4'>
-                    <input
+                    {/* {<input
                         type="number"
                         placeholder="Amount to Send"
                         className="w-30 p-1  rounded bg-gray-800 text-white border border-gray-600 mb-4"
                         value={amount}
                         onChange={(e) => setAmount(Number(e.target.value))}
-                    />
+                    />} */}
                     <button
                         onClick={transferShamyToken}
                         className=" m-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
