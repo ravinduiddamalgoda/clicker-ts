@@ -37,9 +37,9 @@ const App = () => {
   const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
 
   return (
-    <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
-      <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
+    // <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
+    //   <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
+    //     <WalletModalProvider>
           <div className="App">
             {isLoading ? (
               <p>Loading...</p>
@@ -48,6 +48,7 @@ const App = () => {
                 <main className="App-main">
                   {currentView === "MainSection" && <MainSection />}
                   {currentView === "BoostPage" && <BoostPage />}
+                  {/* {currentView === "BoostPage" && <SolanaConnection />} */}
                 </main>
 
                 {/* <footer className="App-footer">
@@ -56,9 +57,9 @@ const App = () => {
               </>
             )}
           </div>
-        </WalletModalProvider>
-      </walletAdapterReact.WalletProvider>
-    </walletAdapterReact.ConnectionProvider>
+    //     </WalletModalProvider>
+    //   </walletAdapterReact.WalletProvider>
+    // </walletAdapterReact.ConnectionProvider>
   );
 };
 

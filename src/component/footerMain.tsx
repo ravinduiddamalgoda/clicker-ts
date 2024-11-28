@@ -29,6 +29,8 @@ const FooterMain: React.FC = () => {
   const updatelevel = () => {
     if(fCount > levelMax[level-1]){
       setLevel(level+1)
+    }else{
+      alert("Not enough F$ to upgrade ;-)");
     }
   }
 
@@ -72,7 +74,9 @@ const FooterMain: React.FC = () => {
         <button className="p-2 w-32 bg-magentaPurple rounded-lg shadow-glow ">
           Subscribe
         </button>
-        <button className="p-2 w-32 bg-goldenYellow rounded-lg shadow-goldenGlow">
+        <button className="p-2 w-32 bg-goldenYellow rounded-lg shadow-goldenGlow"
+        onClick={() => setCurrentView('MainSection')}
+        >
           Tasks
         </button>
       </div>
