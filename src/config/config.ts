@@ -9,7 +9,7 @@ interface FirebaseProps {
   level: number;
   lastUpdated: number;
 }
-
+   
 export const myConstants = {
   F$rate: 5,
   miner_base_cost: 100000, // level 1 miner cost
