@@ -58,23 +58,23 @@ const FooterMain: React.FC = () => {
         <button
           className={`p-2 rounded-lg w-32 ${
             fCount > levelMax[level-1]
-              ? 'bg-vividGreen shadow-vividGreenGlow'
-              : 'bg-charcoalGray shadow-charcoalGrayGlow'
+              ? 'bg-vividGreen '
+              : 'bg-charcoalGray '
           }`}
           onClick={updatelevel}
         >
           Upgrade
         </button>
         <button
-          className="p-2 w-32 bg-royalBlue rounded-lg shadow-royalBlueGlow"
+          className="p-2 w-32 bg-royalBlue rounded-lg"
           onClick={() => setCurrentView('BoostPage')}
         >
           Boost
         </button>
-        <button className="p-2 w-32 bg-magentaPurple rounded-lg shadow-glow ">
+        <button className="p-2 w-32 bg-magentaPurple rounded-lg  ">
           Subscribe
         </button>
-        <button className="p-2 w-32 bg-goldenYellow rounded-lg shadow-goldenGlow"
+        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
         onClick={() => setCurrentView('MainSection')}
         >
           Tasks

@@ -105,9 +105,9 @@ const removeBoost = () => {
     <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
       <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <div className="flex flex-col items-center justify-center text-center py-10 p-5 ">
-            <div className="grid grid-rows-2 justify-between items-center bg-gray-800 h-screen rounded-xl shadow-lg">
-              <div className="flex flex-col justify-start">
+          <div>
+            <div className="flex flex-col items-center justify-center gap-20 bg-gray-800 rounded-xl shadow-lg h-screen w-screen">
+              <div className="flex flex-col justify-center items-center">
                 <SolanaConnection />
               </div>
 
@@ -117,16 +117,16 @@ const removeBoost = () => {
                     Boost Using F$ <br /> For F$ 500,000 a 2X boost will be
                     applied for 1 Hr
                   </p>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end mt-2">
                     <button className="bg-green-700 text-white px-4 py-2 rounded" onClick={handleClick}>
                       F$ : 500,000
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="justify-between items-center bg-gray-800 rounded-xl">
+              <div>
                 <FooterMain />
-              </div>
+            </div>
             </div>
           </div>
         </WalletModalProvider>
