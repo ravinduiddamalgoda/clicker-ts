@@ -157,19 +157,19 @@ const SolanaConnection = () => {
     return (
         <div className='flex items-center justify-center h-40 m-2 mt-10 text-white'>
             <div className='p-2'>
-                <div className='flex justify-between items-center'>
+                <div className='flex justify-start items-center'>
                     <WalletMultiButton
                         className='!bg-indigo-600 !text-white !rounded-lg px-2 py-2 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500'
                     />
                 </div>
 
-                <div className='mt-2 bg-gray-700 border border-gray-600 rounded-lg p-2'>
+                <div className='my-2 bg-gray-700 border border-gray-600 rounded-lg p-2'>
                     <ul className='space-y-4'>
                         
 
-                        <li className='flex justify-between items-center'>
+                        <li className='flex justify-center items-center px-2'>
                             <p className='tracking-wide text-lg'>SHAMY Balance: </p>
-                            <p className='text-indigo-400 font-semibold'>
+                            <p className='text-indigo-400 font-semibold ml-4'>
                                 {shamyBalance !== null ? `${shamyBalance.toFixed(4)} SHAMY` : 'N/A'}
                             </p>
                         </li>
@@ -186,7 +186,7 @@ const SolanaConnection = () => {
                     />} */}
                     <button
                         onClick={transferShamyToken}
-                        className=" m-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                        className="!bg-indigo-600 !text-white !rounded-lg px-4 py-3 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500"
                     >
                         Send SHAMY
                     </button>
