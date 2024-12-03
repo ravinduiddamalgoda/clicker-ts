@@ -111,7 +111,7 @@ const removeBoost = () => {
                 <SolanaConnection />
               </div>
 
-              <div className="flex flex-col justify-between px-5">
+              <div className="flex flex-col justify-between w-[300px]">
                 <div className="text-left">
                   <p className="text-white">
                     Boost Using F$ <br /> For F$ 500,000 a 2X boost will be
