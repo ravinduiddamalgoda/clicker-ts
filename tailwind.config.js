@@ -25,6 +25,9 @@ module.exports = {
         roadrage: ['Road Rage', 'sans-serif'],
         spicyrice: ['Spicy Rice', 'serif'],
       },
+      textShadow: {
+        blackOutline: '1px 1px 2px #000000', 
+      },
     },
   },
   plugins: [],

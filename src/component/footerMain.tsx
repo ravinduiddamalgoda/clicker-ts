@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { GameContext } from '../context/GameContext';
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { GameContext } from "../context/GameContext";
 import { levelMax } from "../constants/leveldata";
 
 interface GlobalContextProps {
@@ -27,12 +27,12 @@ const FooterMain: React.FC = () => {
   } = useContext(GameContext) as GlobalContextProps;
 
   const updatelevel = () => {
-    if(fCount > levelMax[level-1]){
-      setLevel(level+1)
-    }else{
+    if (fCount > levelMax[level - 1]) {
+      setLevel(level + 1);
+    } else {
       alert("Not enough F$ to upgrade ;-)");
     }
-  }
+  };
 
   const [enoughF$, setEnoughF$] = useState(false);
 
@@ -56,28 +56,46 @@ const FooterMain: React.FC = () => {
     <div className=" text-white font-spicyrice max-w-[400px]">
       <div className="flex flex-wrap justify-evenly text-xl py-4 gap-6">
         <button
-          className={`p-2 rounded-lg w-32 ${
-            fCount > levelMax[level-1]
-              ? 'bg-vividGreen '
-              : 'bg-charcoalGray '
-          }`}
+          className={`p-2 rounded-lg w-32 ${fCount > levelMax[level - 1] ? "bg-vividGreen " : "bg-charcoalGray "
+            }`}
+          style={{
+            textShadow: "1px 1px 2px black",
+          }}
           onClick={updatelevel}
         >
           Upgrade
         </button>
         <button
           className="p-2 w-32 bg-royalBlue rounded-lg"
-          onClick={() => setCurrentView('BoostPage')}
+          style={{
+            textShadow: "1px 1px 2px black",
+          }}
+          onClick={() => setCurrentView("BoostPage")}
         >
           Boost
         </button>
-        <button className="p-2 w-32 bg-magentaPurple rounded-lg  ">
+        <button
+          className="p-2 w-32 bg-magentaPurple rounded-lg  "
+          style={{
+            textShadow: "1px 1px 2px black",
+          }}
+        >
           Subscribe
         </button>
-        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
-        onClick={() => setCurrentView('MainSection')}
+        <button
+          className="p-2 w-32 bg-goldenYellow rounded-lg text-shadow-"
+          style={{
+            textShadow: "1px 1px 2px black",
+          }}
+          onClick={() => setCurrentView("MainSection")}
         >
           Tasks
+        </button>
+        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
+        style={{
+          textShadow: "1px 1px 2px black",
+        }}>
+          Home
         </button>
       </div>
     </div>
@@ -86,6 +104,10 @@ const FooterMain: React.FC = () => {
 
 export default FooterMain;
 
-function LevelUpCost(baseCost: number, levelUpRate: number, level: number): number {
+function LevelUpCost(
+  baseCost: number,
+  levelUpRate: number,
+  level: number
+): number {
   return baseCost * levelUpRate * (level + 1);
 }

@@ -156,10 +156,10 @@ const SolanaConnection = () => {
     
     return (
         <div className='flex items-center justify-center h-40 m-2 mt-10 text-white'>
-            <div className='p-2'>
-                <div className='flex justify-start items-center'>
+            <div className='p-2 w-[300px]'>
+                <div className='flex justify-start items-center w-full'>
                     <WalletMultiButton
-                        className='!bg-indigo-600 !text-white !rounded-lg px-2 py-2 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500'
+                        className='!bg-indigo-600 !text-white !w-full !rounded-lg px-20 py-2 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500'
                     />
                 </div>
 
@@ -167,16 +167,16 @@ const SolanaConnection = () => {
                     <ul className='space-y-4'>
                         
 
-                        <li className='flex justify-center items-center px-2'>
-                            <p className='tracking-wide text-lg'>SHAMY Balance: </p>
-                            <p className='text-indigo-400 font-semibold ml-4'>
+                        <li className='flex flex-col justify-center items-center px-2'>
+                            <p className='tracking-wide text-lg'>SHAMY Balance</p>
+                            <p className='text-indigo-400 font-semibold'>
                                 {shamyBalance !== null ? `${shamyBalance.toFixed(4)} SHAMY` : 'N/A'}
                             </p>
                         </li>
                     </ul>
                 </div>
 
-                <div className='mt-4'>
+                <div className='mt-4 w-full'>
                     {/* {<input
                         type="number"
                         placeholder="Amount to Send"
@@ -186,7 +186,7 @@ const SolanaConnection = () => {
                     />} */}
                     <button
                         onClick={transferShamyToken}
-                        className="!bg-indigo-600 !text-white !rounded-lg px-4 py-3 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500"
+                        className="!bg-indigo-600 w-full !text-white !rounded-lg px-4 py-3 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500"
                     >
                         Send SHAMY
                     </button>

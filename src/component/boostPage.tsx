@@ -105,9 +105,9 @@ const removeBoost = () => {
     <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
       <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <div>
-            <div className="flex flex-col items-center justify-center gap-20 bg-gray-800 rounded-xl shadow-lg h-screen w-screen">
-              <div className="flex flex-col justify-center items-center">
+          <div className="flex flex-col items-center justify-center h-screen sm:h-[800px]">
+            <div className="flex flex-col items-center justify-center gap-14 bg-gray-800 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen">
+              <div className="flex flex-col justify-center items-center w-full">
                 <SolanaConnection />
               </div>
 
@@ -126,7 +126,7 @@ const removeBoost = () => {
               </div>
               <div>
                 <FooterMain />
-            </div>
+              </div>
             </div>
           </div>
         </WalletModalProvider>
