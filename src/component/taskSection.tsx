@@ -36,22 +36,74 @@ const TaskSection: React.FC = () => {
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [activeTask, setActiveTask] = useState<Task | null>(null);
     const [taskStartFCount, setTaskStartFCount] = useState<number | null>(null);
+    const [taskStartTime, setTaskStartTime] = useState<number | null>(null);
+    const [completedTasks, setCompletedTasks] = useState<Record<string, number>>({});
 
     const taskProgress = activeTask && taskStartFCount !== null
         ? Math.min(((fCount - taskStartFCount) / activeTask.target) * 100, 100)
         : 0;
+
+    const getStartOfDay = () => {
+        const now = new Date();
+        return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    };
+
+    const getStartOfWeek = () => {
+        const now = new Date();
+        const dayOfWeek = now.getDay();
+        const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - dayOfWeek).getTime();
+        return startOfWeek;
+    };
+
+    const getStartOfMonth = () => {
+        const now = new Date();
+        return new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+    };
+
+    const getStartOfCurrentPeriod = (category: string) => {
+        switch (category) {
+            case "daily":
+                return getStartOfDay();
+            case "weekly":
+                return getStartOfWeek();
+            case "monthly":
+                return getStartOfMonth();
+            default:
+                return 0;
+        }
+    };
+
+    const isTaskRefreshable = (taskId: number, category: string) => {
+        const taskKey = `${category}-${taskId}`;
+        const lastCompletionTime = completedTasks[taskKey];
+        const startOfPeriod = getStartOfCurrentPeriod(category);
+
+        if (!lastCompletionTime || lastCompletionTime < startOfPeriod) {
+            return true;
+        }
+        return false;
+    };
 
     const handleStartTask = (task: Task) => {
         if (activeTask) {
             alert("Finish the current task before starting a new one!");
             return;
         }
+
+        if (!activeCategory) return;
+
+        if (!isTaskRefreshable(task.id, activeCategory)) {
+            alert(`You can only complete this task once per ${activeCategory}!`);
+            return;
+        }
+
         setActiveTask(task);
         setTaskStartFCount(fCount);
+        setTaskStartTime(Date.now());
     };
 
     const completeTask = () => {
-        if (!activeTask || taskStartFCount === null) return;
+        if (!activeTask || taskStartFCount === null || taskStartTime === null) return;
 
         const minedAmount = fCount - taskStartFCount;
         const reward = 2 * activeTask.target;
@@ -59,12 +111,19 @@ const TaskSection: React.FC = () => {
         setfCount((prev) => prev + reward);
         alert(`Task completed! You earned ${reward} F$ as a reward.`);
 
+        const currentCategory = activeCategory || "";
+        setCompletedTasks((prev) => ({
+            ...prev,
+            [`${currentCategory}-${activeTask.id}`]: Date.now(),
+        }));
+
         setActiveTask(null);
         setTaskStartFCount(null);
+        setTaskStartTime(null);
     };
 
     useEffect(() => {
-        if (activeTask && taskStartFCount !== null) {
+        if (activeTask && taskStartFCount !== null && taskStartTime !== null) {
             const minedAmount = fCount - taskStartFCount;
             if (minedAmount >= activeTask.target) {
                 completeTask();
@@ -133,9 +192,6 @@ const TaskSection: React.FC = () => {
                                             ? "bg-charcoalGray"
                                             : "bg-goldenYellow"
                                             }`}
-                                        style={{
-                                            textShadow: "1px 1px 2px black",
-                                        }}
                                     >
                                         Mine {task.target} F$
                                     </button>
