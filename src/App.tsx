@@ -9,6 +9,7 @@ import { BoostPage } from "./component/boostPage";
 import Footer from "./component/footer";
 import { GlobalContextProps } from "./global";
 import { GameContext } from "./context/GameContext";
+import TaskSection from "./component/taskSection";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 // const App = () => {
@@ -48,6 +49,7 @@ const App = () => {
                 <main className="App-main">
                   {currentView === "MainSection" && <MainSection />}
                   {currentView === "BoostPage" && <BoostPage />}
+                  {currentView === "TaskPage" && <TaskSection />}
                   {/* {currentView === "BoostPage" && <SolanaConnection />} */}
                 </main>
 

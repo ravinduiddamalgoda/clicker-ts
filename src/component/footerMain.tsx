@@ -87,7 +87,7 @@ const FooterMain: React.FC = () => {
           style={{
             textShadow: "1px 1px 2px black",
           }}
-          onClick={() => setCurrentView("MainSection")}
+          onClick={() => setCurrentView("TaskPage")}
         >
           Tasks
         </button>
