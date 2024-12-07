@@ -20,7 +20,7 @@ interface GlobalContextProps {
   levelupRate: number;
   myConstants: {
     miner_base_cost: number;
-    F$_Multiplier : number;
+    F$_Multiplier: number;
   };
   setfCount: React.Dispatch<React.SetStateAction<number>>;
   setLevel: React.Dispatch<React.SetStateAction<number>>;
@@ -31,8 +31,8 @@ interface GlobalContextProps {
 
 const BoostPage: React.FC = () => {
   const { setCurrentView } = useContext(GameContext) as GlobalContextProps;
-  const { fCount ,setfCount , levelupRate } = useContext(GameContext) as GlobalContextProps;
-  const {setF$rate} = useContext(GameContext) as GlobalContextProps;
+  const { fCount, setfCount, levelupRate } = useContext(GameContext) as GlobalContextProps;
+  const { setF$rate } = useContext(GameContext) as GlobalContextProps;
   const [shamyWallet, setShamyWallet] = useState<ShamyWalletData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -75,29 +75,29 @@ const BoostPage: React.FC = () => {
 
   const handleClick = () => {
     if (fCount >= 500000) {
-        alert("Boost applied successfully");
-        // Deduct the F$ from the user's account
-        setfCount(fCount - 500000);
+      alert("Boost applied successfully");
+      // Deduct the F$ from the user's account
+      setfCount(fCount - 500000);
 
-        // Apply the boost
-        applyBoost();
+      // Apply the boost
+      applyBoost();
 
-        // Set a timeout to remove the boost after one hour
-        setTimeout(() => {
-            removeBoost();
-            alert("Boost has ended");
-        }, 3600000); // 3600000 milliseconds = 1 hour
+      // Set a timeout to remove the boost after one hour
+      setTimeout(() => {
+        removeBoost();
+        alert("Boost has ended");
+      }, 3600000); // 3600000 milliseconds = 1 hour
     } else {
-        alert("Not enough F$ to boost");
+      alert("Not enough F$ to boost");
     }
-}
+  }
 
-const applyBoost = () => {
-   setF$rate(currentRate => currentRate * 2);
-};
-const removeBoost = () => {
-  setF$rate(currentRate => currentRate / 2);
-}
+  const applyBoost = () => {
+    setF$rate(currentRate => currentRate * 2);
+  };
+  const removeBoost = () => {
+    setF$rate(currentRate => currentRate / 2);
+  }
   const endpoint =
     "https://fittest-falling-yard.solana-mainnet.quiknode.pro/ef9c6c4f493c90e3c52d95a11c5cf76f8a14def6";
   const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
@@ -109,6 +109,10 @@ const removeBoost = () => {
             <div className="flex flex-col items-center justify-center gap-14 bg-gray-800 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen">
               <div className="flex flex-col justify-center items-center w-full">
                 <SolanaConnection />
+              </div>
+
+              <div className="text-4xl font-spicyrice text-goldenYellow">
+                Total F$: {fCount}
               </div>
 
               <div className="flex flex-col justify-between w-[300px]">
@@ -160,4 +164,3 @@ function getShamyData(): ShamyWalletData | null {
 function saveShamyData(shamyData: ShamyWalletData): void {
   localStorage.setItem("shamyData", JSON.stringify(shamyData));
 }
-// export {};
