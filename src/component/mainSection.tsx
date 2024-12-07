@@ -38,7 +38,7 @@ const MainSection: React.FC = () => {
           />
         </button>
         <div className="text-4xl font-spicyrice text-goldenYellow">
-          F$: {fCount}
+          F$: {fCount.toFixed(2)}
         </div>
         <div className="bg-gray-600 h-4 rounded-full shadow-glow w-4/5 sm:my-2">
           <div
