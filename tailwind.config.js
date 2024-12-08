@@ -13,6 +13,7 @@ module.exports = {
         royalBlue: '#1700ad',
         charcoalGray: '#616063',
         vividGreen: '#129900',
+        mediumGreen: '#00b570',
       },
       boxShadow: {
         glow: '0 0 30px #bf04c2',
