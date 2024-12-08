@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { GameContext } from "../context/GameContext";
 import FooterMain from "./footerMain";
 import { GlobalContextProps } from "../global";
+import ReferralLinkShare from "./referralLinkShare";
 
 const dailyTasks = [
     { id: 1, target: 1000 },
@@ -188,9 +189,9 @@ const TaskSection: React.FC = () => {
                                     <button
                                         onClick={() => handleStartTask(task)}
                                         disabled={!!activeTask}
-                                        className={`px-4 py-2 rounded w-[300px] tracking-widest ${activeTask?.id === task.id
+                                        className={`px-4 py-2 rounded font-thin w-[300px] tracking-widest ${activeTask?.id === task.id
                                             ? "bg-charcoalGray"
-                                            : "bg-goldenYellow"
+                                            : "bg-mediumGreen"
                                             }`}
                                     >
                                         Mine {task.target} F$
@@ -217,6 +218,10 @@ const TaskSection: React.FC = () => {
 
                 <div>
                     <FooterMain />
+                </div>
+
+                <div>
+                    <ReferralLinkShare referralLink="23456789iuygfcvbnm" websiteUrl="https://www.clickerts.com" />
                 </div>
             </div>
         </div>

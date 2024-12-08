@@ -116,13 +116,16 @@ const BoostPage: React.FC = () => {
               </div>
 
               <div className="flex flex-col justify-between w-[300px]">
-                <div className="text-left">
+                <div className="text-center">
                   <p className="text-white">
                     Boost Using F$ <br /> For F$ 500,000 a 2X boost will be
                     applied for 1 Hr
                   </p>
-                  <div className="flex justify-end mt-2">
-                    <button className="bg-green-700 text-white px-4 py-2 rounded" onClick={handleClick}>
+                  <div className="flex justify-center mt-8">
+                    <button 
+                      className="bg-green-700 text-white px-8 py-3 rounded shadow-2xl font-semibold text-xl" 
+                      onClick={handleClick}
+                    >
                       F$ : 500,000
                     </button>
                   </div>
