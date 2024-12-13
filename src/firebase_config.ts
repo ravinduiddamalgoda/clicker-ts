@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-// import { getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 
 interface FirebaseConfig {
@@ -24,8 +24,8 @@ const firebaseConfig: FirebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-// const auth = getAuth(app);
+const auth = getAuth(app);
 export {app};
-// export { auth };
+export { auth };
 
 
