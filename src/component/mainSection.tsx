@@ -44,7 +44,7 @@ const MainSection: React.FC = () => {
           <span className="absolute inset-0 rounded-full bg-gray-500 opacity-0 group-active:opacity-50 transition-opacity duration-200"></span>
         </button>
         <div className="text-4xl font-spicyrice text-goldenYellow">
-          F$: {fCount}
+          F$: {fCount.toFixed(2)}
         </div>
         <div className="bg-gray-600 h-4 rounded-full shadow-glow w-4/5 sm:my-2">
           <div

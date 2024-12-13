@@ -112,7 +112,7 @@ const BoostPage: React.FC = () => {
               </div>
 
               <div className="text-4xl font-spicyrice text-goldenYellow">
-                Total F$: {fCount}
+                Total F$: {fCount.toFixed(2)}
               </div>
 
               <div className="flex flex-col justify-between w-[300px]">
