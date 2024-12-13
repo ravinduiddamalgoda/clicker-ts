@@ -25,17 +25,23 @@ const MainSection: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center text-center">
+    <div className="flex flex-col items-center justify-center text-center my-10">
       <div className="flex flex-col justify-center gap-7 items-center bg-gray-800 px-6 py-10 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen">
-        <div className="text-4xl font-spicyrice text-goldenYellow uppercase">
-          Level {level}
+        <div className="flex gap-8">
+          <div className="text-4xl font-spicyrice text-goldenYellow uppercase">
+            Level {level}
+          </div>
+          <button className="text-lg border-2 px-4 rounded-lg font-spicyrice text-white font-extralight">
+           Info
+          </button>
         </div>
-        <button onClick={handleStart}>
+        <button onClick={handleStart} className="relative group">
           <img
             src={levelIcons[level - 1]}
             alt="Game Icon"
-            className="h-60 w-60 sm:h-80 sm:w-80 rounded-full bg-gray-700 p-1 shadow-glow"
+            className="h-60 w-60 sm:h-80 sm:w-80 rounded-full bg-gray-700 p-1 shadow-glow group-active:scale-95 group-active:shadow-lg transition-transform duration-150 ease-in-out"
           />
+          <span className="absolute inset-0 rounded-full bg-gray-500 opacity-0 group-active:opacity-50 transition-opacity duration-200"></span>
         </button>
         <div className="text-4xl font-spicyrice text-goldenYellow">
           F$: {fCount.toFixed(2)}
