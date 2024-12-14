@@ -105,7 +105,7 @@ const BoostPage: React.FC = () => {
     <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
       <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <div className="flex flex-col items-center justify-center h-screen sm:h-[800px]">
+        <div className="flex flex-col items-center justify-center text-center my-10">
             <div className="flex flex-col items-center justify-center gap-14 bg-gray-800 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen">
               <div className="flex flex-col justify-center items-center w-full">
                 <SolanaConnection />

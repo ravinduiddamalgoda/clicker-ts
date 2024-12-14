@@ -1,5 +1,5 @@
 import { getDatabase, ref, set, push, get, update, onValue } from "firebase/database";
-import app from '../firebase_config';
+import { app } from '../firebase_config';
 
 // Define types for props used in saveToFirebase and readFromFirebase
 interface FirebaseProps {
