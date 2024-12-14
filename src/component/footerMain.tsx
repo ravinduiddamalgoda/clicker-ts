@@ -102,7 +102,24 @@ const FooterMain: React.FC = () => {
               Home
             </button>
         )}
-      
+        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
+        style={{
+          textShadow: "1px 1px 2px black",
+        }}>
+          Home
+        </button>
+        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
+        style={{
+          textShadow: "1px 1px 2px black",
+        }}>
+          Login
+        </button>
+        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
+        style={{
+          textShadow: "1px 1px 2px black",
+        }}>
+          Log out
+        </button>
       </div>
     </div>
   );

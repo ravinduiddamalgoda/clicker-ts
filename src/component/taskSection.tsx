@@ -150,7 +150,7 @@ const TaskSection: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center text-center">
+        <div className="flex flex-col items-center justify-center text-center my-10">
             <div className="flex flex-col justify-center gap-7 items-center font-spicyrice bg-gray-800 px-6 py-10 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen">
                 <div className="text-4xl font-spicyrice text-goldenYellow uppercase">
                     Level {level}
