@@ -21,6 +21,7 @@ const FooterMain: React.FC = () => {
     level,
     levelupRate,
     myConstants,
+    currentView,
     setfCount,
     setLevel,
     setCurrentView,
@@ -91,12 +92,17 @@ const FooterMain: React.FC = () => {
         >
           Tasks
         </button>
-        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
-        style={{
-          textShadow: "1px 1px 2px black",
-        }}>
-          Home
-        </button>
+        {currentView !== "MainSection" && (
+            <button className="p-2 w-32 bg-goldenYellow rounded-lg "
+            style={{
+              textShadow: "1px 1px 2px black",
+            }}
+            onClick={() => setCurrentView("MainSection")}
+            >
+              Home
+            </button>
+        )}
+      
       </div>
     </div>
   );
