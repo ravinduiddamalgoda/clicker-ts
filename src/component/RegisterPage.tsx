@@ -1,94 +1,56 @@
+import React, { useState, useContext } from "react";
+import { GameContext } from "../context/GameContext";
 
-import React, { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase_config";
-
-
-const RegisterPage: React.FC = () => {
+const RegisterPage = () => {
+  const { handleRegister, setCurrentView } = useContext(GameContext)!;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const [username, setUsername] = useState("");
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      alert("Registration Successful!");
-    } catch (error: any) {
-      setError(error.message);
-    }
+    await handleRegister(email, password, username);
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-900">
-      <div className="bg-gray-800 text-white p-8 rounded-xl shadow-lg w-96">
-        <h2 className="text-3xl font-bold mb-6 text-center">Register</h2>
-        <form onSubmit={handleRegister}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-300 mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg focus:outline-none"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-300 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg focus:outline-none"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="confirmPassword" className="block text-gray-300 mb-1">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3 py-2 bg-gray-700 text-white rounded-lg focus:outline-none"
-              required
-            />
-          </div>
-          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+    <div className="flex items-center justify-center min-h-screen bg-background text-textPrimary">
+      <div className="w-full max-w-md bg-card p-8 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-center mb-6 text-white">Register</h1>
+        <form onSubmit={onSubmit} className="space-y-4">
+          <input
+            type="text"
+            placeholder="Username"
+            onChange={(e) => setUsername(e.target.value)}
+            className="w-full px-4 py-2 rounded bg-background text-textPrimary border border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 rounded bg-background text-textPrimary border border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 rounded bg-background text-textPrimary border border-gray-700 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
           <button
             type="submit"
-            className="w-full bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg font-bold"
+            className="w-full bg-primary text-white py-2 rounded hover:bg-blue-600 transition duration-300"
           >
             Register
           </button>
         </form>
-        <p className="mt-4 text-gray-400 text-center">
-          Already have an account?{" "}
-          <a href="/login" className="text-blue-400 underline">
-            Login here
-          </a>
-        </p>
+        <button
+          onClick={() => setCurrentView("LoginPage")}
+          className="mt-4 text-sm text-textSecondary hover:text-primary transition"
+        >
+          Back to Login
+        </button>
       </div>
     </div>
   );
 };
 
 export default RegisterPage;
-// export {};

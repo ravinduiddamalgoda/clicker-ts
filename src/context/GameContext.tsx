@@ -22,6 +22,9 @@ interface ContextGameData {
   setfCount: React.Dispatch<React.SetStateAction<number>>;
   setLevel: React.Dispatch<React.SetStateAction<number>>;
   setF$rate: React.Dispatch<React.SetStateAction<number>>;
+  handleLogin: (email: string, password: string) => Promise<void>;
+  handleRegister: (email: string, password: string, username: string) => Promise<void>;
+  isLoggedIn: boolean;
   // setLevelupRate: React.Dispatch<React.SetStateAction<number>>; 
 }
 

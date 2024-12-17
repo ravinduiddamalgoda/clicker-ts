@@ -1,72 +1,36 @@
-import React, { useContext } from "react";
-import * as web3 from "@solana/web3.js";
-import * as walletAdapterReact from "@solana/wallet-adapter-react";
-import * as walletAdapterWallets from "@solana/wallet-adapter-wallets";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import SolanaConnection from "./component/SolanaConnection";
+import React, { useContext, useState } from "react";
 import MainSection from "./component/mainSection";
 import { BoostPage } from "./component/boostPage";
 import Footer from "./component/footer";
-import { GlobalContextProps } from "./global";
-import { GameContext } from "./context/GameContext";
 import TaskSection from "./component/taskSection";
-require("@solana/wallet-adapter-react-ui/styles.css");
-
-// const App = () => {
-//     const endpoint = "https://fittest-falling-yard.solana-mainnet.quiknode.pro/ef9c6c4f493c90e3c52d95a11c5cf76f8a14def6";
-//     const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
-
-//     return (
-//         <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
-//             <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
-//                 <WalletModalProvider>
-//                     <SolanaConnection />
-//                 </WalletModalProvider>
-//             </walletAdapterReact.WalletProvider>
-//         </walletAdapterReact.ConnectionProvider>
-//     );
-// };
-
-// export default App;
+import LoginPage from "./component/LoginPage";
+import RegisterPage from "./component/RegisterPage";
+import { GameContext } from "./context/GameContext";
 
 const App = () => {
-  const { fCount, isLoading, currentView } = useContext(
-    GameContext
-  ) as GlobalContextProps;
-  const endpoint =
-    "https://fittest-falling-yard.solana-mainnet.quiknode.pro/ef9c6c4f493c90e3c52d95a11c5cf76f8a14def6";
-  const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
+  const { currentView , isLoggedIn} = useContext(GameContext)!;
 
   return (
-    // <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
-    //   <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
-    //     <WalletModalProvider>
-          <div className="App">
-            {isLoading ? (
-              <p>Loading...</p>
-            ) : (
-              <>
-                <main className="App-main">
-                  {currentView === "MainSection" && <MainSection />}
-                  {currentView === "BoostPage" && <BoostPage />}
-                  {currentView === "TaskPage" && <TaskSection />}
-                  {/* {currentView === "BoostPage" && <SolanaConnection />} */}
-                </main>
-
-                {/* <footer className="App-footer">
-                  <Footer></Footer>
-                </footer> */}
-              </>
-            )}
-          </div>
-    //     </WalletModalProvider>
-    //   </walletAdapterReact.WalletProvider>
-    // </walletAdapterReact.ConnectionProvider>
+    <div className="App">
+      <main className="App-main">
+        {currentView === "LoginPage" && (
+          <LoginPage/>
+        )}
+        {currentView === "RegisterPage" && (
+          <RegisterPage/>
+        )}
+        {isLoggedIn && currentView === "MainSection" && <MainSection />}
+        {isLoggedIn && currentView === "BoostPage" && <BoostPage />}
+        {isLoggedIn && currentView === "TaskPage" && <TaskSection />}
+        {!isLoggedIn && currentView !== "LoginPage" && (
+          <p>You are not logged in. Redirecting to Login Page...</p>
+        )}
+      </main>
+      {/* <footer className="App-footer">
+        <Footer />
+      </footer> */}
+    </div>
   );
 };
 
 export default App;
-
-function formatNumberWithCommas(no: number) {
-  return no.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
