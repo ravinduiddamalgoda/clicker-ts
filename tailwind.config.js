@@ -14,6 +14,11 @@ module.exports = {
         charcoalGray: '#616063',
         vividGreen: '#129900',
         mediumGreen: '#00b570',
+        background: "#121212", // Custom dark background color
+        card: "#1F1F1F", // Darker shade for cards
+        primary: "#3B82F6", // Tailwind's blue-500 for buttons
+        textPrimary: "#E2E8F0", // Light gray for primary text
+        textSecondary: "#94A3B8", // Dim gray for secondary text
       },
       boxShadow: {
         glow: '0 0 30px #bf04c2',
