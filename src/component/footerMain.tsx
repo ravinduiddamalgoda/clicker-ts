@@ -55,7 +55,7 @@ const FooterMain: React.FC = () => {
 
   return (
     <div className=" text-white font-spicyrice max-w-[400px]">
-      <div className="flex flex-wrap justify-evenly text-xl py-4 gap-6">
+      <div className="flex flex-wrap justify-evenly text-xl py-2 gap-3">
         <button
           className={`p-2 rounded-lg w-32 ${fCount > levelMax[level - 1] ? "bg-vividGreen " : "bg-charcoalGray "
             }`}
@@ -107,12 +107,6 @@ const FooterMain: React.FC = () => {
           textShadow: "1px 1px 2px black",
         }}>
           Home
-        </button>
-        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
-        style={{
-          textShadow: "1px 1px 2px black",
-        }}>
-          Login
         </button>
         <button className="p-2 w-32 bg-goldenYellow rounded-lg "
         style={{

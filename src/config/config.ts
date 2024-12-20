@@ -1,5 +1,5 @@
 import { getDatabase, ref, set, get, update } from "firebase/database";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase_config";
 
 // Define types for props used in saveToFirebase and readFromFirebase
@@ -101,6 +101,45 @@ export const loginWithFirebase = async (props: AuthProps): Promise<any> => {
     return userData;
   } catch (error: any) {
     alert("Error: " + error.message);
+    return null;
+  }
+};
+
+export const registerWithGoogleAuth = async (): Promise<any> => {
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth(app);
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    if (!result.user) throw new Error("No user data received from Google authentication.");
+
+    const userId = result.user.uid;
+    const displayName = result.user.displayName || result.user.email?.split('@')[0] || "NewUser";
+
+    const db = getDatabase(app);
+    const userRef = ref(db, `UserData/Users/${userId}`);
+    const userSnapshot = await get(userRef);
+
+    if (!userSnapshot.exists()) {
+      await set(userRef, {
+        userName: displayName,
+        fCount: 0,
+        level: 1,
+        lastUpdated: Date.now(),
+      });
+      console.log("User registered successfully.");
+      const userData = await readFromFirebase(userId);
+      console.log("User logged in successfully:", userData);
+      return userData;
+    } else {
+      await update(userRef, { lastUpdated: Date.now() });
+      const userData = await readFromFirebase(userId);
+      console.log("User logged in successfully:", userData);
+      return userData;
+    }
+  } catch (error: any) {
+    console.error("Google authentication error:", error);
+    alert(`Error: ${error.message}`);
     return null;
   }
 };

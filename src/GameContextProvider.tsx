@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useMemo, ReactNode } from "react";
-import { myConstants  , loginWithFirebase , registerWithFirebase , saveToFirebase} from "./config/config";
+import { myConstants  , loginWithFirebase , registerWithFirebase , saveToFirebase, registerWithGoogleAuth} from "./config/config";
 import { GameContext } from "./context/GameContext";
 import { set } from "firebase/database";
 
@@ -28,6 +28,20 @@ export function Provider({ children }: ProviderProps) {
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
+
+  const handleGoogleAuth = async() => {
+    setIsLoading(true);
+    const data = await registerWithGoogleAuth();
+    if (data) {
+      setUserId(data.userId);
+      setfCount(data.fCount);
+      setLevel(data.level);
+      setCurrentView("MainSection");
+    }
+    setIsLoading(false);
+    setIsLoggedIn(true);
+  }
+  
   const handleLogin = async (email: string, password: string) => {
     setIsLoading(true);
     const data = await loginWithFirebase({ email, password });
@@ -88,6 +102,7 @@ export function Provider({ children }: ProviderProps) {
       setF$rate,
       handleLogin,
       handleRegister,
+      handleGoogleAuth,
       isLoggedIn
     }),
     [fCount, level, myConstants, F$rate, levelupRate, isLoading]
