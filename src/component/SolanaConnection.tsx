@@ -188,7 +188,7 @@ const SolanaConnection = () => {
                         onClick={transferShamyToken}
                         className="!bg-indigo-600 w-full !text-white !rounded-lg px-4 py-3 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500"
                     >
-                        Send SHAMY
+                        Boost with Shammy
                     </button>
                 </div>
             </div>
