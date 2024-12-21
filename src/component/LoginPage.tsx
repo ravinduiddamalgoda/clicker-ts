@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { GameContext } from "../context/GameContext";
 
 const LoginPage = () => {
-  const { handleLogin, setCurrentView } = useContext(GameContext)!;
+  const { handleLogin, setCurrentView, handleGoogleAuth } = useContext(GameContext)!;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -33,6 +33,12 @@ const LoginPage = () => {
             className="w-full bg-primary text-white py-2 rounded hover:bg-blue-600 transition duration-300"
           >
             Login
+          </button>
+          <button
+            onClick={ () => handleGoogleAuth()}
+            className="w-full bg-primary text-white py-2 rounded hover:bg-blue-600 transition duration-300"
+          >
+            Login with Google
           </button>
         </form>
         <button
