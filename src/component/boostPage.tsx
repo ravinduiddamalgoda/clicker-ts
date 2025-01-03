@@ -117,7 +117,7 @@ const BoostPage: React.FC = () => {
 
               <div className="flex flex-col justify-between w-[300px]">
                 <div className="text-center">
-                  <p className="text-white">
+                  <p className="text-white text-md p-3">
                     Boost Using F$ <br /> For F$ 500,000 a 2X boost will be
                     applied for 1 Hr
                   </p>
