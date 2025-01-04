@@ -32,6 +32,7 @@ export const saveToFirebase = async (props: FirebaseProps): Promise<void> => {
   const userRef = ref(db, `UserData/Users/${props.userId}`);
 
   const snapshot = await get(userRef);
+  
   if (snapshot.exists()) {
     // Update existing user
     await update(userRef, {
@@ -40,8 +41,14 @@ export const saveToFirebase = async (props: FirebaseProps): Promise<void> => {
       level: props.level,
       lastUpdated: props.lastUpdated,
     })
-      .then(() => console.log("Data updated successfully"))
-      .catch((error) => alert("Error: " + error.message));
+    .then(() => {
+      console.log("Data updated successfully");
+      alert("Data has been successfully updated!");
+    })
+    .catch((error) => {
+      console.error("Error updating data:", error);
+      alert("An error occurred while updating the data. Please try again.");
+    });
   } else {
     // Add new user
     await set(userRef, {
@@ -61,6 +68,8 @@ export const readFromFirebase = async (userId: string): Promise<any> => {
   const userRef = ref(db, `UserData/Users/${userId}`);
 
   const snapshot = await get(userRef);
+  const data = snapshot.val()
+  console.log("READ FROM FIREBASE", data)
   return snapshot.val();
 };
 
@@ -98,6 +107,9 @@ export const loginWithFirebase = async (props: AuthProps): Promise<any> => {
     // Fetch user data after successful login
     const userData = await readFromFirebase(userId);
     console.log("User logged in successfully:", userData);
+
+    localStorage.setItem("userId", userId);
+
     return userData;
   } catch (error: any) {
     alert("Error: " + error.message);
@@ -130,11 +142,17 @@ export const registerWithGoogleAuth = async (): Promise<any> => {
       console.log("User registered successfully.");
       const userData = await readFromFirebase(userId);
       console.log("User logged in successfully:", userData);
+
+      localStorage.setItem("userId", userId);
+
       return userData;
     } else {
       await update(userRef, { lastUpdated: Date.now() });
       const userData = await readFromFirebase(userId);
       console.log("User logged in successfully:", userData);
+
+      localStorage.setItem("userId", userId);
+      
       return userData;
     }
   } catch (error: any) {
