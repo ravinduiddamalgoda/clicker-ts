@@ -5,7 +5,6 @@ import { app } from "../firebase_config";
 // Define types for props used in saveToFirebase and readFromFirebase
 interface FirebaseProps {
   userId: string; // Firebase Auth UID
-  userName: string;
   fCount: number;
   level: number;
   lastUpdated: number;
@@ -35,7 +34,6 @@ export const saveToFirebase = async (props: FirebaseProps): Promise<void> => {
   if (snapshot.exists()) {
     // Update existing user
     await update(userRef, {
-      userName: props.userName,
       fCount: props.fCount,
       level: props.level,
       lastUpdated: props.lastUpdated,
@@ -45,7 +43,6 @@ export const saveToFirebase = async (props: FirebaseProps): Promise<void> => {
   } else {
     // Add new user
     await set(userRef, {
-      userName: props.userName,
       fCount: props.fCount,
       level: props.level,
       lastUpdated: props.lastUpdated,
@@ -111,31 +108,40 @@ export const registerWithGoogleAuth = async (): Promise<any> => {
 
   try {
     const result = await signInWithPopup(auth, provider);
+    console.log("Google authentication result:", result);
     if (!result.user) throw new Error("No user data received from Google authentication.");
 
     const userId = result.user.uid;
+    console.log("User ID:", userId);
     const displayName = result.user.displayName || result.user.email?.split('@')[0] || "NewUser";
 
     const db = getDatabase(app);
     const userRef = ref(db, `UserData/Users/${userId}`);
     const userSnapshot = await get(userRef);
 
-    if (!userSnapshot.exists()) {
-      await set(userRef, {
+    if (userSnapshot.exists()) {
+      // User exists, update their last login timestamp and retrieve data
+      await update(userRef, { lastUpdated: Date.now() });
+      const userData = userSnapshot.val();
+      console.log("User logged in successfully:", userData);
+      return {
+        ...userData,
+        userId, // Include userId for frontend usage
+      };
+    } else {
+      // User doesn't exist, create a new entry and return the data
+      const newUser = {
         userName: displayName,
         fCount: 0,
         level: 1,
         lastUpdated: Date.now(),
-      });
-      console.log("User registered successfully.");
-      const userData = await readFromFirebase(userId);
-      console.log("User logged in successfully:", userData);
-      return userData;
-    } else {
-      await update(userRef, { lastUpdated: Date.now() });
-      const userData = await readFromFirebase(userId);
-      console.log("User logged in successfully:", userData);
-      return userData;
+      };
+      await set(userRef, newUser);
+      console.log("New user registered and logged in successfully:", newUser);
+      return {
+        ...newUser,
+        userId, // Include userId for frontend usage
+      };
     }
   } catch (error: any) {
     console.error("Google authentication error:", error);

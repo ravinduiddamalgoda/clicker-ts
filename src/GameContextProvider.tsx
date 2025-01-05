@@ -32,6 +32,12 @@ export function Provider({ children }: ProviderProps) {
   const handleGoogleAuth = async() => {
     setIsLoading(true);
     const data = await registerWithGoogleAuth();
+    console.log(data);
+    if(!data || !data.userId || data === null || data === undefined){ 
+      console.log('login failed by the  google auth');
+      setIsLoading(false);
+    }
+    console.log('login success');
     if (data) {
       setUserId(data.userId);
       setfCount(data.fCount);
@@ -45,6 +51,7 @@ export function Provider({ children }: ProviderProps) {
   const handleLogin = async (email: string, password: string) => {
     setIsLoading(true);
     const data = await loginWithFirebase({ email, password });
+    console.log(data);
     if (data) {
       setUserId(data.userId);
       setfCount(data.fCount);
@@ -68,7 +75,6 @@ export function Provider({ children }: ProviderProps) {
       if (userId) {
         saveToFirebase({
           userId,
-          userName: "DefaultUser", // Replace with dynamic name if needed
           fCount,
           level,
           lastUpdated: Date.now(),
