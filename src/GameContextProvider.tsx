@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useMemo, ReactNode } from "react";
-import { myConstants  , loginWithFirebase , registerWithFirebase , saveToFirebase, registerWithGoogleAuth} from "./config/config";
+import { myConstants, loginWithFirebase, registerWithFirebase, saveToFirebase, registerWithGoogleAuth, readFromFirebase } from "./config/config";
 import { GameContext } from "./context/GameContext";
 import { set } from "firebase/database";
 
@@ -28,8 +28,7 @@ export function Provider({ children }: ProviderProps) {
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-
-  const handleGoogleAuth = async() => {
+  const handleGoogleAuth = async () => {
     setIsLoading(true);
     const data = await registerWithGoogleAuth();
     console.log(data);
@@ -47,7 +46,7 @@ export function Provider({ children }: ProviderProps) {
     setIsLoading(false);
     setIsLoggedIn(true);
   }
-  
+
   const handleLogin = async (email: string, password: string) => {
     // setIsLoading(true);
     // const data = await loginWithFirebase({ email, password });
@@ -69,6 +68,34 @@ export function Provider({ children }: ProviderProps) {
     setCurrentView("LoginPage");
     setIsLoading(false);
   };
+
+  //check whether a user is loggedin
+  const checkUserLogin = async () => {
+    setIsLoading(true);
+    const storedUserId = localStorage.getItem("userId");
+
+    if (storedUserId) {
+      const userData = await readFromFirebase(storedUserId);
+      if (userData) {
+        setUserId(userData.userId);
+        setfCount(userData.fCount);
+        setLevel(userData.level);
+        setIsLoading(false);
+        setIsLoggedIn(true);
+        setCurrentView("MainSection");
+      }
+      console.log('userdata found from firebase.')
+      console.log(userData)
+    } else {
+      setIsLoading(false);
+      setCurrentView("LoginPage");
+    }
+
+  };
+
+  useEffect(() => {
+    checkUserLogin();
+  }, [userId])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -147,7 +174,7 @@ export function Provider({ children }: ProviderProps) {
   return (
     <GameContext.Provider value={contextGameData}>{children}</GameContext.Provider>
   );
-  
+
 }
 
 
@@ -166,4 +193,3 @@ function saveGameData(gameData: GameData | null): void {
     localStorage.setItem("gameData", JSON.stringify(gameData));
   }
 }
-

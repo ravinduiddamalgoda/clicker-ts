@@ -1,6 +1,12 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { GameContext } from "../context/GameContext";
 import { levelMax } from "../constants/leveldata";
+import Upgrade from '../assets/icons/upgrade.png'
+import Boost from '../assets/icons/boost.png'
+import Click from '../assets/icons/clicks.png'
+import Home from '../assets/icons/home.png'
+import Logout from '../assets/icons/logout.png'
+import Task from '../assets/icons/task.png'
 
 interface GlobalContextProps {
   fCount: number;
@@ -54,65 +60,73 @@ const FooterMain: React.FC = () => {
   }, [fCount, level, requiredF$]);
 
   return (
-    <div className=" text-white font-spicyrice max-w-[400px]">
-      <div className="flex flex-wrap justify-evenly text-xl py-2 gap-3">
+    <div className="text-white font-roadrage max-w-[400px]">
+      <div
+        className="flex justify-evenly text-xl px-2 py-4 gap-3 overflow-x-auto bg-darkwine rounded-3xl"
+        style={{
+          msOverflowStyle: "none",
+          scrollbarWidth: "none",
+        }}
+      >
+        {currentView !== "MainSection" && (
+          <button
+            className="px-6 rounded-lg text-xl"
+            onClick={() => setCurrentView("MainSection")}
+            style={{
+              textShadow: "0 0 1px black"
+            }}
+          >
+            <img src={Home} alt="Home Icon" className="w-12 h-12 object-contain" />
+            Home
+          </button>
+        )}
         <button
-          className={`p-2 rounded-lg w-32 ${fCount > levelMax[level - 1] ? "bg-vividGreen " : "bg-charcoalGray "
-            }`}
-          style={{
-            textShadow: "1px 1px 2px black",
-          }}
+          className="px-6 rounded-lg text-xl"
           onClick={updatelevel}
+          style={{
+            textShadow: "0 0 1px black"
+          }}
         >
+          <img src={Upgrade} alt="Upgrade Icon" className="w-12 h-12 object-contain" />
           Upgrade
         </button>
         <button
-          className="p-2 w-32 bg-royalBlue rounded-lg"
-          style={{
-            textShadow: "1px 1px 2px black",
-          }}
+          className="px-6 rounded-lg text-xl"
           onClick={() => setCurrentView("BoostPage")}
+          style={{
+            textShadow: "0 0 1px black"
+          }}
         >
+          <img src={Boost} alt="Boost Icon" className="w-12 h-12 object-contain" />
           Boost
         </button>
         <button
-          className="p-2 w-32 bg-magentaPurple rounded-lg  "
+          className="px-6 rounded-lg text-xl"
           style={{
-            textShadow: "1px 1px 2px black",
+            textShadow: "0 0 1px black"
           }}
         >
+          <img src={Click} alt="Click Icon" className="w-12 h-12 object-contain" />
           Subscribe
         </button>
         <button
-          className="p-2 w-32 bg-goldenYellow rounded-lg text-shadow-"
-          style={{
-            textShadow: "1px 1px 2px black",
-          }}
+          className="px-6 rounded-lg text-xl"
           onClick={() => setCurrentView("TaskPage")}
+          style={{
+            textShadow: "0 0 1px black"
+          }}
         >
+          <img src={Task} alt="Task Icon" className="w-12 h-12 object-contain" />
           Tasks
         </button>
-        {currentView !== "MainSection" && (
-            <button className="p-2 w-32 bg-goldenYellow rounded-lg "
-            style={{
-              textShadow: "1px 1px 2px black",
-            }}
-            onClick={() => setCurrentView("MainSection")}
-            >
-              Home
-            </button>
-        )}
-        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
-        style={{
-          textShadow: "1px 1px 2px black",
-        }}>
-          Home
-        </button>
-        <button className="p-2 w-32 bg-goldenYellow rounded-lg "
-        style={{
-          textShadow: "1px 1px 2px black",
-        }}>
-          Log out
+        <button
+          className="px-6 rounded-lg text-xl"
+          style={{
+            textShadow: "0 0 1px black"
+          }}
+        >
+          <img src={Logout} alt="Logout Icon" className="w-12 h-12 object-contain" />
+          Logout
         </button>
       </div>
     </div>
@@ -121,10 +135,6 @@ const FooterMain: React.FC = () => {
 
 export default FooterMain;
 
-function LevelUpCost(
-  baseCost: number,
-  levelUpRate: number,
-  level: number
-): number {
+function LevelUpCost(baseCost: number, levelUpRate: number, level: number): number {
   return baseCost * levelUpRate * (level + 1);
 }

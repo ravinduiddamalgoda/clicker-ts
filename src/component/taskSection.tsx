@@ -3,6 +3,9 @@ import { GameContext } from "../context/GameContext";
 import FooterMain from "./footerMain";
 import { GlobalContextProps } from "../global";
 import ReferralLinkShare from "./referralLinkShare";
+import Day from '../assets/icons/day.png'
+import Month from '../assets/icons/month.png'
+import Week from '../assets/icons/week.png'
 
 const dailyTasks = [
     { id: 1, target: 1000 },
@@ -151,38 +154,43 @@ const TaskSection: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center justify-center text-center">
-      <div className="flex flex-col justify-center gap-7 items-center bg-gray-800 px-6 py-5 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen sm:min-h-[calc(100vh-8rem)] sm:my-4">
-                <div className="text-4xl font-spicyrice text-goldenYellow uppercase">
-                    Level {level}
-                </div>
-                <div className="text-4xl font-spicyrice text-goldenYellow">
-                    Total F$: {fCount.toFixed(2)}
+            <div className="flex flex-col justify-between gap-7 font-roadrage py-4 items-center bg-gray-800 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen sm:min-h-[calc(100vh-2rem)] sm:my-4 bg-gradient-to-t from-black to-transparent">
+                <div className="flex flex-col gap-4">
+                    <div className="text-5xl text-goldenYellow uppercase">
+                        Level {level}
+                    </div>
+                    <div className="text-5xl text-goldenYellow">
+                        Total F$: {fCount.toFixed(2)}
+                    </div>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex gap-4 font-roadrage text-lg text-white">
                     <button
                         onClick={() => toggleCategory("daily")}
-                        className="px-4 py-2 bg-goldenYellow rounded"
+                        className="flex gap-4 justify-center items-center px-4 py-2 bg-card rounded"
                     >
+                        <img src={Day} className="w-10" />
                         Daily Tasks
                     </button>
                     <button
                         onClick={() => toggleCategory("weekly")}
-                        className="px-4 py-2 bg-goldenYellow rounded"
+                        className="flex gap-4 justify-center items-center px-4 py-2 bg-card rounded"
                     >
+                        <img src={Week} className="w-10" />
                         Weekly Tasks
                     </button>
                     <button
                         onClick={() => toggleCategory("monthly")}
-                        className="px-4 py-2 bg-goldenYellow rounded"
+                        className="flex gap-4 justify-center items-center px-4 py-2 bg-card rounded"
                     >
+                        <img src={Month} className="w-10" />
                         Monthly Tasks
                     </button>
                 </div>
 
                 {activeCategory && (
-                    <div className="text-xl font-semibold text-white mt-4">
-                        {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Tasks:
+                    <div className="text-3xl text-white mt-4">
+                        {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Tasks
                         <ul>
                             {getTasksForCategory().map((task) => (
                                 <li key={task.id} className="mt-2">
@@ -191,7 +199,8 @@ const TaskSection: React.FC = () => {
                                         disabled={!!activeTask}
                                         className={`px-4 py-2 rounded font-thin w-[300px] tracking-widest ${activeTask?.id === task.id
                                             ? "bg-charcoalGray"
-                                            : "bg-mediumGreen"
+                                            : "bg-gradient-to-l from-card to-transparent"
+                                            // : "bg-card"
                                             }`}
                                     >
                                         Mine {task.target} F$
@@ -215,13 +224,14 @@ const TaskSection: React.FC = () => {
                         </div>
                     </div>
                 )}
-
-                <div>
-                    <FooterMain />
-                </div>
-
-                <div>
-                    <ReferralLinkShare referralLink="23456789iuygfcvbnm" websiteUrl="https://www.clickerts.com" />
+                <div className="flex flex-col gap-4">
+                    <div>
+                        <div className="text-white text-3xl mb-2">Share Referrel</div>
+                        <ReferralLinkShare referralLink="23456789iuygfcvbnm" websiteUrl="https://www.clickerts.com" />
+                    </div>
+                    <div>
+                        <FooterMain />
+                    </div>
                 </div>
             </div>
         </div>
