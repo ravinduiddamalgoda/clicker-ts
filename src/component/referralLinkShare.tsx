@@ -1,7 +1,10 @@
 import React from "react";
-import { ReactComponent as FacebookIcon } from '../assets/icons/facebook.svg';
-import { ReactComponent as TwitterIcon } from '../assets/icons/twitter.svg';
-import { ReactComponent as WhatsAppIcon } from '../assets/icons/whatsapp.svg';
+import FacebookIcon from '../assets/icons/facebook.png';
+import TwitterIcon from '../assets/icons/twitter.png';
+import WhatsAppIcon from '../assets/icons/whatsapp.png';
+// import { ReactComponent as FacebookIcon } from '../assets/icons/facebook.svg';
+// import { ReactComponent as TwitterIcon } from '../assets/icons/twitter.svg';
+// import { ReactComponent as WhatsAppIcon } from '../assets/icons/whatsapp.svg';
 
 interface ReferralLinkShareProps {
   referralLink: string;
@@ -19,27 +22,24 @@ const ReferralLinkShare: React.FC<ReferralLinkShareProps> = ({ referralLink, web
   const whatsappUrl = `https://wa.me/?text=Check%20this%20out!%20I%20found%20this%20amazing%20app%20and%20here's%20my%20referral%20link%3A%20${encodedReferralLink}%20Check%20out%20this%20website%20too%20at%3A%20${encodedWebsiteUrl}`;
 
   return (
-    <div className="flex flex-col justify-center items-center gap-4">
+    <div className="flex justify-center items-center gap-4 px-8 py-4 bg-darkwine rounded-3xl">
       <button 
         onClick={() => window.open(facebookUrl, "_blank")} 
-        className="bg-goldenYellow flex items-center justify-center px-4 rounded-lg"
+        className=" flex items-center justify-center px-4 rounded-lg"
       >
-        <FacebookIcon width={30} height={30} /> 
-        <div>Share on Facebook</div>
+        <img src={FacebookIcon} className="w-10"/>
       </button>
       <button 
         onClick={() => window.open(twitterUrl, "_blank")}
-        className="bg-goldenYellow flex items-center justify-center px-4 py-1 rounded-lg"
+        className=" flex items-center justify-center px-4 py-1 rounded-lg"
       >
-        <TwitterIcon width={20} height={20} /> 
-        <div className="ml-2">Share on Twitter</div>
+        <img src={TwitterIcon} className="w-10" />
       </button>
       <button 
         onClick={() => window.open(whatsappUrl, "_blank")}
-        className="bg-goldenYellow flex items-center justify-center px-4 rounded-lg"
+        className=" flex items-center justify-center px-4 rounded-lg"
       >
-        <WhatsAppIcon width={30} height={30} /> 
-        <div>Share on Whatsapp</div>
+        <img src={WhatsAppIcon} className="w-10"/>
       </button>
     </div>
   );

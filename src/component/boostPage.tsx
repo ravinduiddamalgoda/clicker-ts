@@ -105,25 +105,25 @@ const BoostPage: React.FC = () => {
     <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
       <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-        <div className="flex flex-col items-center justify-center text-center">
-      <div className="flex flex-col justify-center gap-7 items-center bg-gray-800 px-6 py-5 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen sm:min-h-[calc(100vh-8rem)] sm:my-4">
+          <div className="flex flex-col items-center justify-center text-center">
+            <div className="flex flex-col justify-between gap-7 font-roadrage py-4 items-center bg-gray-800 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen sm:min-h-[calc(100vh-2rem)] sm:my-4 bg-gradient-to-t from-black to-transparent">
               <div className="flex flex-col justify-center items-center w-full">
                 <SolanaConnection />
               </div>
 
-              <div className="text-4xl font-spicyrice text-goldenYellow">
+              <div className="text-6xl font-medium font-roadrage text-goldenYellow">
                 Total F$: {fCount.toFixed(2)}
               </div>
 
               <div className="flex flex-col justify-between w-[300px]">
                 <div className="text-center">
-                  <p className="text-white text-md p-3">
+                  <p className="text-white text-xl p-3">
                     Boost Using F$ <br /> For F$ 500,000 a 2X boost will be
                     applied for 1 Hr
                   </p>
                   <div className="flex justify-center mt-8">
-                    <button 
-                      className="bg-green-700 text-white px-8 py-3 rounded shadow-2xl font-semibold text-xl" 
+                    <button
+                      className="bg-green-700 text-white px-8 py-3 rounded text-3xl"
                       onClick={handleClick}
                     >
                       F$ : 500,000

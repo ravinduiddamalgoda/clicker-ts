@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useMemo, ReactNode } from "react";
-import { myConstants  , loginWithFirebase , registerWithFirebase , saveToFirebase, registerWithGoogleAuth} from "./config/config";
+import { myConstants, loginWithFirebase, registerWithFirebase, saveToFirebase, registerWithGoogleAuth, readFromFirebase } from "./config/config";
 import { GameContext } from "./context/GameContext";
 import { set } from "firebase/database";
 
@@ -28,10 +28,15 @@ export function Provider({ children }: ProviderProps) {
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-
-  const handleGoogleAuth = async() => {
+  const handleGoogleAuth = async () => {
     setIsLoading(true);
     const data = await registerWithGoogleAuth();
+    console.log(data);
+    if(!data || !data.userId || data === null || data === undefined){ 
+      console.log('login failed by the  google auth');
+      setIsLoading(false);
+    }
+    console.log('login success');
     if (data) {
       setUserId(data.userId);
       setfCount(data.fCount);
@@ -41,18 +46,19 @@ export function Provider({ children }: ProviderProps) {
     setIsLoading(false);
     setIsLoggedIn(true);
   }
-  
+
   const handleLogin = async (email: string, password: string) => {
-    setIsLoading(true);
-    const data = await loginWithFirebase({ email, password });
-    if (data) {
-      setUserId(data.userId);
-      setfCount(data.fCount);
-      setLevel(data.level);
-      setCurrentView("MainSection");
-    }
-    setIsLoading(false);
-    setIsLoggedIn(true);
+    // setIsLoading(true);
+    // const data = await loginWithFirebase({ email, password });
+    // console.log(data);
+    // if (data) {
+    //   setUserId(data.userId);
+    //   setfCount(data.fCount);
+    //   setLevel(data.level);
+    //   setCurrentView("MainSection");
+    // }
+    // setIsLoading(false);
+    // setIsLoggedIn(true);
   };
 
   // Register a new user
@@ -63,19 +69,46 @@ export function Provider({ children }: ProviderProps) {
     setIsLoading(false);
   };
 
+  //check whether a user is loggedin
+  const checkUserLogin = async () => {
+    setIsLoading(true);
+    const storedUserId = localStorage.getItem("userId");
+
+    if (storedUserId) {
+      const userData = await readFromFirebase(storedUserId);
+      if (userData) {
+        setUserId(userData.userId);
+        setfCount(userData.fCount);
+        setLevel(userData.level);
+        setIsLoading(false);
+        setIsLoggedIn(true);
+        setCurrentView("MainSection");
+      }
+      console.log('userdata found from firebase.')
+      console.log(userData)
+    } else {
+      setIsLoading(false);
+      setCurrentView("LoginPage");
+    }
+
+  };
+
+  useEffect(() => {
+    checkUserLogin();
+  }, [userId])
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (userId) {
         saveToFirebase({
           userId,
-          userName: "DefaultUser", // Replace with dynamic name if needed
           fCount,
           level,
           lastUpdated: Date.now(),
         });
         console.log("Game data saved to Firebase.");
       }
-    }, 60000); // Save every 60 seconds
+    }, 1000); // Save every 60 seconds
 
     return () => clearInterval(interval);
   }, [fCount, level, userId]);
@@ -141,7 +174,7 @@ export function Provider({ children }: ProviderProps) {
   return (
     <GameContext.Provider value={contextGameData}>{children}</GameContext.Provider>
   );
-  
+
 }
 
 
@@ -160,4 +193,3 @@ function saveGameData(gameData: GameData | null): void {
     localStorage.setItem("gameData", JSON.stringify(gameData));
   }
 }
-
