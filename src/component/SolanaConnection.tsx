@@ -163,13 +163,11 @@ const SolanaConnection = () => {
                     />
                 </div>
 
-                <div className='my-2 bg-gray-700 border border-gray-600 rounded-lg p-2'>
+                <div className='my-2 bg-gray-700 border border-magentaPurple rounded-lg p-2 shadow-glow'>
                     <ul className='space-y-4'>
-                        
-
                         <li className='flex flex-col justify-center items-center px-2'>
-                            <p className='tracking-wide text-lg'>SHAMY Balance</p>
-                            <p className='text-indigo-400 font-semibold'>
+                            <p className='tracking-wide text-2xl'>SHAMY Balance</p>
+                            <p className='text-indigo-400 text-2xl'>
                                 {shamyBalance !== null ? `${shamyBalance.toFixed(4)} SHAMY` : 'N/A'}
                             </p>
                         </li>
@@ -186,7 +184,7 @@ const SolanaConnection = () => {
                     />} */}
                     <button
                         onClick={transferShamyToken}
-                        className="!bg-indigo-600 w-full !text-white !rounded-lg px-4 py-3 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500"
+                        className="!bg-indigo-600 w-full !text-white text-2xl !rounded-lg px-4 py-3 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500"
                     >
                         Boost with Shammy
                     </button>
