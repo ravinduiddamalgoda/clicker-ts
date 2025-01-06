@@ -31,6 +31,13 @@ export function Provider({ children }: ProviderProps) {
   const handleGoogleAuth = async () => {
     setIsLoading(true);
     const data = await registerWithGoogleAuth();
+    console.log(data ,'data google auth');
+    localStorage.setItem("userId", data?.userId);
+    if(!data || !data.userId || data === null || data === undefined){ 
+      console.log('login failed by the  google auth');
+      setIsLoading(false);
+    }
+    console.log('login success');
     if (data) {
       setUserId(data.userId);
       setfCount(data.fCount);
@@ -42,16 +49,17 @@ export function Provider({ children }: ProviderProps) {
   }
 
   const handleLogin = async (email: string, password: string) => {
-    setIsLoading(true);
-    const data = await loginWithFirebase({ email, password });
-    if (data) {
-      setUserId(data.userId);
-      setfCount(data.fCount);
-      setLevel(data.level);
-      setCurrentView("MainSection");
-    }
-    setIsLoading(false);
-    setIsLoggedIn(true);
+    // setIsLoading(true);
+    // const data = await loginWithFirebase({ email, password });
+    // console.log(data);
+    // if (data) {
+    //   setUserId(data.userId);
+    //   setfCount(data.fCount);
+    //   setLevel(data.level);
+    //   setCurrentView("MainSection");
+    // }
+    // setIsLoading(false);
+    // setIsLoggedIn(true);
   };
 
   // Register a new user
@@ -66,7 +74,7 @@ export function Provider({ children }: ProviderProps) {
   const checkUserLogin = async () => {
     setIsLoading(true);
     const storedUserId = localStorage.getItem("userId");
-
+    
     if (storedUserId) {
       const userData = await readFromFirebase(storedUserId);
       if (userData) {
@@ -95,14 +103,13 @@ export function Provider({ children }: ProviderProps) {
       if (userId) {
         saveToFirebase({
           userId,
-          userName: "DefaultUser", // Replace with dynamic name if needed
           fCount,
           level,
           lastUpdated: Date.now(),
         });
         console.log("Game data saved to Firebase.");
       }
-    }, 60000); // Save every 60 seconds
+    }, 1000); // Save every 60 seconds
 
     return () => clearInterval(interval);
   }, [fCount, level, userId]);
