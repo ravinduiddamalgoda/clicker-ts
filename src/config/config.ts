@@ -63,57 +63,67 @@ export const readFromFirebase = async (userId: string): Promise<any> => {
 
 // Register a new user with Firebase Authentication and save user data
 export const registerWithFirebase = async (props: AuthProps): Promise<void> => {
-  const auth = getAuth(app);
-  const db = getDatabase(app);
+  // const auth = getAuth(app);
+  // const db = getDatabase(app);
 
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, props.email, props.password);
-    const userId = userCredential.user.uid;
+  // try {
+  //   const userCredential = await createUserWithEmailAndPassword(auth, props.email, props.password);
+  //   const userId = userCredential.user.uid;
 
-    // Save initial user data to Realtime Database
-    const userRef = ref(db, `UserData/Users/${userId}`);
-    await set(userRef, {
-      userName: props.username || "NewUser",
-      fCount: 0,
-      level: 1,
-      lastUpdated: Date.now(),
-    });
+  //   // Save initial user data to Realtime Database
+  //   const userRef = ref(db, `UserData/Users/${userId}`);
+  //   await set(userRef, {
+  //     userName: props.username || "NewUser",
+  //     fCount: 0,
+  //     level: 1,
+  //     lastUpdated: Date.now(),
+  //   });
 
-    console.log("User registered and data saved successfully");
-  } catch (error: any) {
-    alert("Error: " + error.message);
-  }
+  //   console.log("User registered and data saved successfully");
+  // } catch (error: any) {
+  //   alert("Error: " + error.message);
+  // }
 };
 
 // Log in a user with Firebase Authentication
 export const loginWithFirebase = async (props: AuthProps): Promise<any> => {
-  const auth = getAuth(app);
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, props.email, props.password);
-    const userId = userCredential.user.uid;
+  // const auth = getAuth(app);
+  // try {
+  //   const userCredential = await signInWithEmailAndPassword(auth, props.email, props.password);
+  //   const userId = userCredential.user.uid;
 
-    // Fetch user data after successful login
-    const userData = await readFromFirebase(userId);
-    console.log("User logged in successfully:", userData);
-    return userData;
-  } catch (error: any) {
-    alert("Error: " + error.message);
-    return null;
-  }
+  //   // Fetch user data after successful login
+  //   const userData = await readFromFirebase(userId);
+  //   console.log("User logged in successfully:", userData);
+  //   return userData;
+  // } catch (error: any) {
+  //   alert("Error: " + error.message);
+  //   return null;
+  // }
 };
 
 export const registerWithGoogleAuth = async (): Promise<any> => {
+  console.log("dskdslda")
   const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
 
   try {
     const result = await signInWithPopup(auth, provider);
     console.log("Google authentication result:", result);
+
     if (!result.user) throw new Error("No user data received from Google authentication.");
 
     const userId = result.user.uid;
     console.log("User ID:", userId);
+    
+    // Check if the displayName is available
     const displayName = result.user.displayName || result.user.email?.split('@')[0] || "NewUser";
+    console.log("User Display Name:", displayName);
+
+    // Check for a valid email address
+    if (result.user.email && !isValidEmail(result.user.email)) {
+      throw new Error("Invalid email address.");
+    }
 
     const db = getDatabase(app);
     const userRef = ref(db, `UserData/Users/${userId}`);
@@ -143,9 +153,16 @@ export const registerWithGoogleAuth = async (): Promise<any> => {
         userId, // Include userId for frontend usage
       };
     }
+    
   } catch (error: any) {
     console.error("Google authentication error:", error);
     alert(`Error: ${error.message}`);
     return null;
   }
+};
+
+// Helper function to validate email format
+const isValidEmail = (email: string): boolean => {
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return regex.test(email);
 };

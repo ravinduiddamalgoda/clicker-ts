@@ -49,17 +49,17 @@ export function Provider({ children }: ProviderProps) {
   }
   
   const handleLogin = async (email: string, password: string) => {
-    setIsLoading(true);
-    const data = await loginWithFirebase({ email, password });
-    console.log(data);
-    if (data) {
-      setUserId(data.userId);
-      setfCount(data.fCount);
-      setLevel(data.level);
-      setCurrentView("MainSection");
-    }
-    setIsLoading(false);
-    setIsLoggedIn(true);
+    // setIsLoading(true);
+    // const data = await loginWithFirebase({ email, password });
+    // console.log(data);
+    // if (data) {
+    //   setUserId(data.userId);
+    //   setfCount(data.fCount);
+    //   setLevel(data.level);
+    //   setCurrentView("MainSection");
+    // }
+    // setIsLoading(false);
+    // setIsLoggedIn(true);
   };
 
   // Register a new user
@@ -81,7 +81,7 @@ export function Provider({ children }: ProviderProps) {
         });
         console.log("Game data saved to Firebase.");
       }
-    }, 60000); // Save every 60 seconds
+    }, 1000); // Save every 60 seconds
 
     return () => clearInterval(interval);
   }, [fCount, level, userId]);

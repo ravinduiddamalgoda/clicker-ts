@@ -2,6 +2,7 @@
   "name": "clicker-ts",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@babel/runtime": "^7.26.0",
     "@solana/spl-token": "^0.4.9",
