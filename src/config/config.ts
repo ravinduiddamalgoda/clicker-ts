@@ -41,11 +41,11 @@ export const saveToFirebase = async (props: FirebaseProps): Promise<void> => {
     })
     .then(() => {
       console.log("Data updated successfully");
-      alert("Data has been successfully updated!");
+      // alert("Data has been successfully updated!");
     })
     .catch((error) => {
       console.error("Error updating data:", error);
-      alert("An error occurred while updating the data. Please try again.");
+      // alert("An error occurred while updating the data. Please try again.");
     });
   } else {
     // Add new user

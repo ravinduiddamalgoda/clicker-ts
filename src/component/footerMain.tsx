@@ -59,6 +59,10 @@ const FooterMain: React.FC = () => {
     setEnoughF$(fCount >= requiredF$);
   }, [fCount, level, requiredF$]);
 
+  const logout = () => {
+    localStorage.removeItem("userId");
+    window.location.reload();
+  }
   return (
     <div className="text-white font-roadrage max-w-[400px]">
       <div
@@ -121,6 +125,7 @@ const FooterMain: React.FC = () => {
         </button>
         <button
           className="px-6 rounded-lg text-xl"
+          onClick={() => logout()}
           style={{
             textShadow: "0 0 1px black"
           }}

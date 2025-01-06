@@ -31,7 +31,8 @@ export function Provider({ children }: ProviderProps) {
   const handleGoogleAuth = async () => {
     setIsLoading(true);
     const data = await registerWithGoogleAuth();
-    console.log(data);
+    console.log(data ,'data google auth');
+    localStorage.setItem("userId", data?.userId);
     if(!data || !data.userId || data === null || data === undefined){ 
       console.log('login failed by the  google auth');
       setIsLoading(false);
@@ -73,7 +74,7 @@ export function Provider({ children }: ProviderProps) {
   const checkUserLogin = async () => {
     setIsLoading(true);
     const storedUserId = localStorage.getItem("userId");
-
+    
     if (storedUserId) {
       const userData = await readFromFirebase(storedUserId);
       if (userData) {

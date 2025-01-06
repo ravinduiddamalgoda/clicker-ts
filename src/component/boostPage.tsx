@@ -38,6 +38,8 @@ const BoostPage: React.FC = () => {
 
   const [inputValue, setInputValue] = useState<string>("");
   const [isValid, setIsValid] = useState<boolean>(true);
+  const [aapliedBoost, setAppliedBoost] = useState<boolean>(false);
+  const [remainingTime, setRemainingTime] = useState<number>(3600000);
 
   const handleViewChange = (view: string) => {
     setCurrentView(view);
@@ -76,21 +78,29 @@ const BoostPage: React.FC = () => {
   const handleClick = () => {
     if (fCount >= 500000) {
       alert("Boost applied successfully");
-      // Deduct the F$ from the user's account
-      setfCount(fCount - 500000);
+      setAppliedBoost(true);
 
-      // Apply the boost
+      // Deduct F$ and apply the boost
+      setfCount(fCount - 500000);
       applyBoost();
 
-      // Set a timeout to remove the boost after one hour
-      setTimeout(() => {
-        removeBoost();
-        alert("Boost has ended");
-      }, 3600000); // 3600000 milliseconds = 1 hour
+      // Start the countdown for the boost duration
+      let timeLeft = 3600000; // 1 hour
+      const interval = setInterval(() => {
+        timeLeft -= 1000; // Reduce time by 1 second
+        setRemainingTime(timeLeft);
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          removeBoost();
+          alert("Boost has ended");
+          setAppliedBoost(false);
+        }
+      }, 1000);
     } else {
       alert("Not enough F$ to boost");
     }
-  }
+  };
 
   const applyBoost = () => {
     setF$rate(currentRate => currentRate * 2);
@@ -98,6 +108,8 @@ const BoostPage: React.FC = () => {
   const removeBoost = () => {
     setF$rate(currentRate => currentRate / 2);
   }
+  const progressPercentage = ((3600000 - remainingTime) / 3600000) * 100; // Calculate progress percentage
+  
   const endpoint =
     "https://fittest-falling-yard.solana-mainnet.quiknode.pro/ef9c6c4f493c90e3c52d95a11c5cf76f8a14def6";
   const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
@@ -128,6 +140,14 @@ const BoostPage: React.FC = () => {
                     >
                       F$ : 500,000
                     </button>
+                    {aapliedBoost && (
+                    <div className="bg-gray-600 h-4 rounded-full shadow-glow w-full mt-4">
+                      <div
+                        className="bg-magentaPurple h-full rounded-full transition-all duration-300"
+                        style={{ width: `${progressPercentage}%` }}
+                      ></div>
+                    </div>
+                  )}
                   </div>
                 </div>
               </div>
