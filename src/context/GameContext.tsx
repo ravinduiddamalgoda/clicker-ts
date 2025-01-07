@@ -25,6 +25,7 @@ interface ContextGameData {
   handleLogin: (email: string, password: string) => Promise<void>;
   handleRegister: (email: string, password: string, username: string) => Promise<void>;
   handleGoogleAuth: () =>  Promise<void>;
+  handleLogout: () =>  Promise<void>;
   isLoggedIn: boolean;
   // setLevelupRate: React.Dispatch<React.SetStateAction<number>>; 
 }

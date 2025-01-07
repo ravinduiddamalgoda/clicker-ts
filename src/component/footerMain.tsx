@@ -32,6 +32,7 @@ const FooterMain: React.FC = () => {
     setLevel,
     setCurrentView,
   } = useContext(GameContext) as GlobalContextProps;
+  const { handleLogout } = useContext(GameContext)!;
 
   const updatelevel = () => {
     if (fCount > levelMax[level - 1]) {
@@ -63,6 +64,7 @@ const FooterMain: React.FC = () => {
     localStorage.removeItem("userId");
     window.location.reload();
   }
+
   return (
     <div className="text-white font-roadrage max-w-[400px]">
       <div

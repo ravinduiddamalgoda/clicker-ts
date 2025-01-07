@@ -27,6 +27,7 @@ export const myConstants = {
 
 // Save or update user data in the Realtime Database
 export const saveToFirebase = async (props: FirebaseProps): Promise<void> => {
+  console.log('starting save to firebase')
   const db = getDatabase(app);
   const userRef = ref(db, `UserData/Users/${props.userId}`);
 
@@ -112,7 +113,6 @@ export const loginWithFirebase = async (props: AuthProps): Promise<any> => {
 };
 
 export const registerWithGoogleAuth = async (): Promise<any> => {
-  console.log("dskdslda")
   const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
 

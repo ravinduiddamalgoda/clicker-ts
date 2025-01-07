@@ -48,6 +48,22 @@ export function Provider({ children }: ProviderProps) {
     setIsLoggedIn(true);
   }
 
+  const handleLogout = async () => {
+    if (userId) {
+      saveToFirebase({
+        userId,
+        fCount,
+        level,
+        lastUpdated: Date.now(),
+      });
+      console.log("Game data saved to Firebase.");
+    }else {
+      console.log("User already loged out.")
+    }
+    localStorage.removeItem("userId");
+    window.location.reload();
+  }
+
   const handleLogin = async (email: string, password: string) => {
     // setIsLoading(true);
     // const data = await loginWithFirebase({ email, password });
@@ -94,26 +110,50 @@ export function Provider({ children }: ProviderProps) {
 
   };
 
+  // useEffect(() => {
+  //   if (!userId) return;
+  //   saveToFirebase({
+  //     userId,
+  //     fCount,
+  //     level,
+  //     lastUpdated: Date.now(),
+  //   });
+  //   console.log("fcount", fCount)
+  // }, [fCount])
+
   useEffect(() => {
     checkUserLogin();
-  }, [userId])
+  }, [])
 
   useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
+  
     const interval = setInterval(() => {
-      if (userId) {
-        saveToFirebase({
-          userId,
-          fCount,
-          level,
-          lastUpdated: Date.now(),
-        });
-        console.log("Game data saved to Firebase.");
-      }
-    }, 1000); // Save every 60 seconds
-
+      console.log('Attempting to save to Firebase...');
+      saveToFirebase({
+        userId,
+        fCount,
+        level,
+        lastUpdated: Date.now(),
+      });
+    }, 1000); 
+    console.log('Saved successfilly.');
+  
     return () => clearInterval(interval);
-  }, [fCount, level, userId]);
+  }, [fCount]); 
 
+  // useEffect(() => {
+  //   if (!userId) return;
+  //   saveToFirebase({
+  //     userId,
+  //     fCount,
+  //     level,
+  //     lastUpdated: Date.now(),
+  //   });
+  //   console.log("fcount", fCount)
+  // }, [fCount, level, userId])
+  
   useEffect(() => {
     const rate = myConstants.F$rate * Math.pow(1 + myConstants.Growth_rate_per_level, level - 1);
     setF$rate(rate);
@@ -137,6 +177,7 @@ export function Provider({ children }: ProviderProps) {
       handleLogin,
       handleRegister,
       handleGoogleAuth,
+      handleLogout,
       isLoggedIn
     }),
     [fCount, level, myConstants, F$rate, levelupRate, isLoading]
