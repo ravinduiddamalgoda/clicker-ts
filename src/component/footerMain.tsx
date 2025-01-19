@@ -11,12 +11,14 @@ import Task from '../assets/icons/task.png'
 interface GlobalContextProps {
   fCount: number;
   level: number;
+  F$rate: number;
   levelupRate: number;
   myConstants: {
     miner_base_cost: number;
   };
   setfCount: React.Dispatch<React.SetStateAction<number>>;
   setLevel: React.Dispatch<React.SetStateAction<number>>;
+  setF$rate: React.Dispatch<React.SetStateAction<number>>;
   currentView: string;
   setCurrentView: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -25,20 +27,24 @@ const FooterMain: React.FC = () => {
   const {
     fCount,
     level,
+    F$rate,
     levelupRate,
     myConstants,
     currentView,
     setfCount,
     setLevel,
+    setF$rate,
     setCurrentView,
   } = useContext(GameContext) as GlobalContextProps;
   const { handleLogout } = useContext(GameContext)!;
 
   const updatelevel = () => {
     if (fCount > levelMax[level - 1]) {
+      setfCount(fCount-levelMax[level-1]);
       setLevel(level + 1);
     } else {
       alert("Not enough F$ to upgrade ;-)");
+      
     }
   };
 
@@ -48,7 +54,7 @@ const FooterMain: React.FC = () => {
     () => LevelUpCost(myConstants.miner_base_cost, levelupRate, level),
     [myConstants.miner_base_cost, levelupRate, level]
   );
-
+/*
   const handleLevelUpgrade = () => {
     if (enoughF$) {
       setLevel(level + 1);
@@ -58,7 +64,7 @@ const FooterMain: React.FC = () => {
 
   useEffect(() => {
     setEnoughF$(fCount >= requiredF$);
-  }, [fCount, level, requiredF$]);
+  }, [fCount, level, requiredF$]);*/
 
   const logout = () => {
     localStorage.removeItem("userId");
@@ -66,9 +72,9 @@ const FooterMain: React.FC = () => {
   }
 
   return (
-    <div className="text-white font-roadrage max-w-[400px]">
+    <div className="text-white font-roadrage w-full "> {/*max-w-[400px]*/}
       <div
-        className="flex justify-evenly text-xl px-2 py-4 gap-3 overflow-x-auto bg-darkwine rounded-3xl"
+        className="flex justify-evenly text-xs  py-4 gap-1 overflow-x-none bg-darkwine rounded-xl"
         style={{
           msOverflowStyle: "none",
           scrollbarWidth: "none",
@@ -76,63 +82,64 @@ const FooterMain: React.FC = () => {
       >
         {currentView !== "MainSection" && (
           <button
-            className="px-6 rounded-lg text-xl"
+            className="px-2 rounded-lg text-xs"
             onClick={() => setCurrentView("MainSection")}
             style={{
               textShadow: "0 0 1px black"
             }}
           >
-            <img src={Home} alt="Home Icon" className="w-12 h-12 object-contain" />
+            <img src={Home} alt="Home Icon" className="w-10 h-10 object-contain" />
             Home
           </button>
         )}
+        {currentView == "MainSection" && (
         <button
-          className="px-6 rounded-lg text-xl"
+          className="px-2 rounded-lg text-xs"
           onClick={updatelevel}
           style={{
             textShadow: "0 0 1px black"
           }}
         >
-          <img src={Upgrade} alt="Upgrade Icon" className="w-12 h-12 object-contain" />
+          <img src={Upgrade} alt="Upgrade Icon" className="w-10 h-10 object-contain" />
           Upgrade
-        </button>
+        </button>)}
         <button
-          className="px-6 rounded-lg text-xl"
+          className="px-2 rounded-lg text-xs"
           onClick={() => setCurrentView("BoostPage")}
           style={{
             textShadow: "0 0 1px black"
           }}
         >
-          <img src={Boost} alt="Boost Icon" className="w-12 h-12 object-contain" />
+          <img src={Boost} alt="Boost Icon" className="w-10 h-10 object-contain" />
           Boost
         </button>
         <button
-          className="px-6 rounded-lg text-xl"
+          className="px-2 rounded-lg text-xs"
           style={{
             textShadow: "0 0 1px black"
           }}
         >
-          <img src={Click} alt="Click Icon" className="w-12 h-12 object-contain" />
+          <img src={Click} alt="Click Icon" className="w-10 h-10 object-contain" />
           Subscribe
         </button>
         <button
-          className="px-6 rounded-lg text-xl"
+          className="px-2 rounded-lg text-xs"
           onClick={() => setCurrentView("TaskPage")}
           style={{
             textShadow: "0 0 1px black"
           }}
         >
-          <img src={Task} alt="Task Icon" className="w-12 h-12 object-contain" />
+          <img src={Task} alt="Task Icon" className="w-10 h-10 object-contain" />
           Tasks
         </button>
         <button
-          className="px-6 rounded-lg text-xl"
+          className="px-2 rounded-lg text-xs"
           onClick={() => logout()}
           style={{
             textShadow: "0 0 1px black"
           }}
         >
-          <img src={Logout} alt="Logout Icon" className="w-12 h-12 object-contain" />
+          <img src={Logout} alt="Logout Icon" className="w-10 h-10 object-contain" />
           Logout
         </button>
       </div>

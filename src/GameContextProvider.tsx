@@ -27,6 +27,7 @@ export function Provider({ children }: ProviderProps) {
   const [level, setLevel] = useState<number>(1);
   const [userId, setUserId] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  
 
   const handleGoogleAuth = async () => {
     setIsLoading(true);
@@ -155,7 +156,7 @@ export function Provider({ children }: ProviderProps) {
   // }, [fCount, level, userId])
   
   useEffect(() => {
-    const rate = myConstants.F$rate * Math.pow(1 + myConstants.Growth_rate_per_level, level - 1);
+    const rate = F$rate  + myConstants.Growth_rate_per_level;
     setF$rate(rate);
   }, [level]);
 

@@ -10,9 +10,10 @@ import {
     TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
-
+import NameLogo from '../assets/icons/minenwin.jpg'
 import '@solana/wallet-adapter-react-ui/styles.css';
 import { GameContext } from '../context/GameContext';
+import { myConstants } from '../config/config';
 
 interface GlobalContextProps {
     fCount: number;
@@ -78,10 +79,10 @@ const SolanaConnection = () => {
             return;
         }
         const applyBoost = () => {
-            setF$rate(currentRate => currentRate * 5);
+            setF$rate(currentRate => currentRate * myConstants.$Shamy_Multiplier);
          };
          const removeBoost = () => {
-           setF$rate(currentRate => currentRate / 5);
+           setF$rate(currentRate => currentRate /  myConstants.$Shamy_Multiplier);
          }
     
         try {
@@ -153,43 +154,72 @@ const SolanaConnection = () => {
 
       
     };
+
+    const handleBuyShamy =()=> {
+        window.open("https://dexscreener.com/solana/BZJxQ5W4qbEtoo558R5oxsb3aXW7mfgCptDVJ2o4yvXg?1718881989302", "_blank");
+    };
     
     return (
-        <div className='flex items-center justify-center h-40 m-2 mt-10 text-white'>
-            <div className='p-2 w-[300px]'>
-                <div className='flex justify-start items-center w-full'>
+        <div className='flex w-full'>
+            <div className='px-2 w-full'>
+                
+                <div className="flex  justify-between">
+                    
+                    <div className="text-2xl text-goldenYellow ">
+                    <img src={NameLogo} alt="Name_logo"  />
+                    </div> 
+                    <div className='flex'>
                     <WalletMultiButton
                         className='!bg-indigo-600 !text-white !w-full !rounded-lg px-20 py-2 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500'
                     />
+                    </div>         
                 </div>
+                <div className='flex flex-col text-xl justify-center text-blue-400 items-center mt-4'> <p>Boost with SHAMY Token </p>
+                    <p className="text-xl ">Boost F$ generation x15 for 2 Hours</p>
+                </div>
+                {/*Shamy details */}
+                <div className="flex  gap-1 justify-between mt-4">
+                    <div className='flex w-1/2 bg-gray-700 border border-magentaPurple rounded-lg p-2 shadow-glow'>
+                        <ul className='space-y-4'>
+                            <li className='flex flex-col justify-center items-center px-2'>
+                                <p className='tracking-wide text-sm'>SHAMY Balance</p>
+                                <p className='text-indigo-400 text-sm'>
+                                    {shamyBalance !== null ? `${shamyBalance.toFixed(4)} SHAMY` : 'N/A'}
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
 
-                <div className='my-2 bg-gray-700 border border-magentaPurple rounded-lg p-2 shadow-glow'>
-                    <ul className='space-y-4'>
-                        <li className='flex flex-col justify-center items-center px-2'>
-                            <p className='tracking-wide text-2xl'>SHAMY Balance</p>
-                            <p className='text-indigo-400 text-2xl'>
-                                {shamyBalance !== null ? `${shamyBalance.toFixed(4)} SHAMY` : 'N/A'}
-                            </p>
-                        </li>
-                    </ul>
-                </div>
+                    {/*Boos with Shamy */}
+                    <div className='flex w-1/2'>
+                        {/* {<input
+                            type="number"
+                            placeholder="Amount to Send"
+                            className="w-30 p-1  rounded bg-gray-800 text-white border border-gray-600 mb-4"
+                            value={amount}
+                            onChange={(e) => setAmount(Number(e.target.value))}
+                        />} */}
+                        <button
+                            onClick={transferShamyToken}
+                            className="!bg-indigo-600 !text-white text-xl !rounded-lg px-4 py-3 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500"
+                        >
+                            {myConstants.ShamyBoost} SHAMY  Boost
+                        </button>
+                    </div>
 
-                <div className='mt-4 w-full'>
-                    {/* {<input
-                        type="number"
-                        placeholder="Amount to Send"
-                        className="w-30 p-1  rounded bg-gray-800 text-white border border-gray-600 mb-4"
-                        value={amount}
-                        onChange={(e) => setAmount(Number(e.target.value))}
-                    />} */}
-                    <button
-                        onClick={transferShamyToken}
-                        className="!bg-indigo-600 w-full !text-white text-2xl !rounded-lg px-4 py-3 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500"
-                    >
-                        Boost with Shammy
-                    </button>
-                </div>
+                </div> 
+                <div className='flex justify-center mt-3'>
+                     
+                     <button
+                         onClick={handleBuyShamy}
+                         className="!bg-indigo-800 w-full !text-white text-xl items-center !rounded-lg px-4 py-3 transition-transform transform hover:scale-105 focus:ring focus:ring-indigo-500"
+                     >
+                         BUY $SHAMY  
+                     </button>
+                 </div>             
             </div>
+
+           
         </div>
     );
 };

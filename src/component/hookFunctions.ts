@@ -5,6 +5,12 @@ function Validate(value: string): boolean {
   // Check if the value contains only numeric characters
   const isNumeric = /^\d+$/.test(value);
   return isNumeric;
-}
+};
 
-export { Validate };
+function  NumberWithCommas( number: number ) : string {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
+export {Validate, NumberWithCommas};
+
+ 

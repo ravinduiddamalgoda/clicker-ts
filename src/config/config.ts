@@ -20,9 +20,11 @@ export const myConstants = {
   F$rate: 5,
   miner_base_cost: 100000, // Level 1 miner cost
   level_up_base_multiplier: 5, // Level upgrade multiplier
-  Growth_rate_per_level: 0.035, // % growth from the previous level
+  Growth_rate_per_level: 2, // % growth from the previous level
   F$_Multiplier: 5, // x5 boost multiplier
   $Shamy_Multiplier: 15, // x15 boost multiplier for shamy tokens
+  F$_boost:500000, // boost value for F$
+  ShamyBoost:10000, // No of Tokens needed for shamy boost
 };
 
 // Save or update user data in the Realtime Database

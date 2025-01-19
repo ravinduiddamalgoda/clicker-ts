@@ -3,9 +3,11 @@ import { GameContext } from "../context/GameContext";
 import FooterMain from "./footerMain";
 import { GlobalContextProps } from "../global";
 import ReferralLinkShare from "./referralLinkShare";
-import Day from '../assets/icons/day.png'
-import Month from '../assets/icons/month.png'
-import Week from '../assets/icons/week.png'
+import Day from '../assets/icons/day.png';
+import Month from '../assets/icons/month.png';
+import Week from '../assets/icons/week.png';
+import NameLogo from '../assets/icons/minenwin.jpg';
+import {NumberWithCommas} from "./hookFunctions";
 
 const dailyTasks = [
     { id: 1, target: 1000 },
@@ -42,6 +44,9 @@ const TaskSection: React.FC = () => {
     const [taskStartFCount, setTaskStartFCount] = useState<number | null>(null);
     const [taskStartTime, setTaskStartTime] = useState<number | null>(null);
     const [completedTasks, setCompletedTasks] = useState<Record<string, number>>({});
+    const [showMessage, setShowMessage] = useState(false);
+    const [message, setMessage] = useState<string | null>(null);
+
 
     const taskProgress = activeTask && taskStartFCount !== null
         ? Math.min(((fCount - taskStartFCount) / activeTask.target) * 100, 100)
@@ -90,14 +95,18 @@ const TaskSection: React.FC = () => {
 
     const handleStartTask = (task: Task) => {
         if (activeTask) {
-            alert("Finish the current task before starting a new one!");
+            alert( "Finish the current task before starting a new one!");
+            setMessage(pre=> pre = "Finish the current task before starting a new one!");
+            setShowMessage(true);
             return;
         }
 
         if (!activeCategory) return;
 
         if (!isTaskRefreshable(task.id, activeCategory)) {
-            alert(`You can only complete this task once per ${activeCategory}!`);
+            //Message = `You can only complete this task once per ${activeCategory}!`;
+            setMessage(pre => pre = `You can only complete this task once per ${activeCategory}!`);
+            setShowMessage(true);
             return;
         }
 
@@ -113,7 +122,9 @@ const TaskSection: React.FC = () => {
         const reward = 2 * activeTask.target;
 
         setfCount((prev) => prev + reward);
-        alert(`Task completed! You earned ${reward} F$ as a reward.`);
+       
+        setMessage(pre => pre = `Task completed! You earned ${reward} F$ as a reward.`);
+        setShowMessage(true);
 
         const currentCategory = activeCategory || "";
         setCompletedTasks((prev) => ({
@@ -154,42 +165,75 @@ const TaskSection: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center justify-center text-center">
-            <div className="flex flex-col justify-between gap-7 font-roadrage py-4 items-center bg-gray-800 rounded-xl shadow-lg w-screen sm:w-[500px] min-h-screen sm:min-h-[calc(100vh-2rem)] sm:my-4 bg-gradient-to-t from-black to-transparent">
-                <div className="flex flex-col gap-4">
-                    <div className="text-5xl text-goldenYellow uppercase">
-                        Level {level}
+            {showMessage && (
+             <div className="absolute inset-0 z-50 bg-black bg-opacity-95 text-white flex items-center justify-center p-2">
+                <div className="w-full rounded w-[400px] p-2 bg-blue-700 text-center max-w-4xl font-roadrage font-extralight">
+                    <div >
+                            <div className=" flex flex-row rounded bg-blue-700 w-[370px] p-5 ">                        
+                                <div className="text-xl mb-6 space-y-4 tracking-wider">{message}</div>
+                        
+                                <button
+                                    className="bg-white text-black py-2 px-6 rounded-sm"
+                                    onClick={() => setShowMessage(false)}
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                </div>
+            </div>
+             )}
+           
+            <div className="flex flex-col  font-roadrage py-4 items-center bg-gray-800 rounded-xl shadow-lg max-h-[600px] w-screen sm:w-[400px] min-h-screen sm:min-h-[calc(100vh-2rem)] sm:my-4 bg-gradient-to-t from-black to-transparent">
+            
+                <div className="flex flex-row gap-8 w-full justify-between">
+                    <div className="flex pl-2">
+                        <div className="text-2xl text-goldenYellow ">
+                        <img src={NameLogo} alt="Name_logo"  />
+                        </div>          
                     </div>
-                    <div className="text-5xl text-goldenYellow">
-                        Total F$: {fCount.toFixed(2)}
+                    <div className="flex pr-2">
+                        <div className= "w-1/2">                           
+                        </div>
+                    </div>
+                </div>
+                
+                <div className="flex flex-row mt-5 justify-center w-full">
+                    <div className="text-3xl text-goldenYellow">
+                         F$: {fCount/*toFixed(2)*/}
                     </div>
                 </div>
 
-                <div className="flex gap-4 font-roadrage text-lg text-white">
-                    <button
-                        onClick={() => toggleCategory("daily")}
-                        className="flex gap-4 justify-center items-center px-4 py-2 bg-card rounded"
-                    >
-                        <img src={Day} className="w-10" />
-                        Daily Tasks
-                    </button>
-                    <button
-                        onClick={() => toggleCategory("weekly")}
-                        className="flex gap-4 justify-center items-center px-4 py-2 bg-card rounded"
-                    >
-                        <img src={Week} className="w-10" />
-                        Weekly Tasks
-                    </button>
-                    <button
-                        onClick={() => toggleCategory("monthly")}
-                        className="flex gap-4 justify-center items-center px-4 py-2 bg-card rounded"
-                    >
-                        <img src={Month} className="w-10" />
-                        Monthly Tasks
-                    </button>
+                <div className="flex gap-4 font-roadrage text-lg text-white pl-2 pr-2 mt-10">
+                    <div className="flex gap-4 ">
+                            <button
+                                onClick={() => toggleCategory("daily")}
+                                className="flex gap-4 justify-center items-center px-4 py-2 bg-card rounded"
+                            >
+                                <img src={Day} className="w-10" />
+                                Daily Tasks
+                            </button>
+                            <button
+                                onClick={() => toggleCategory("weekly")}
+                                className="flex gap-4 justify-center items-center px-4 py-2 bg-card rounded"
+                            >
+                                <img src={Week} className="w-10" />
+                                Weekly Tasks
+                            </button>
+                            <button
+                                onClick={() => toggleCategory("monthly")}
+                                className="flex gap-4 justify-center items-center px-4 py-2 bg-card rounded"
+                            >
+                                <img src={Month} className="w-10" />
+                                Monthly Tasks
+                            </button>
+                        </div>
+                    
+                    
                 </div>
 
                 {activeCategory && (
-                    <div className="text-3xl text-white mt-4">
+                    <div className="text-xl text-white mt-5">
                         {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} Tasks
                         <ul>
                             {getTasksForCategory().map((task) => (
@@ -197,13 +241,13 @@ const TaskSection: React.FC = () => {
                                     <button
                                         onClick={() => handleStartTask(task)}
                                         disabled={!!activeTask}
-                                        className={`px-4 py-2 rounded font-thin w-[300px] tracking-widest ${activeTask?.id === task.id
+                                        className={`rounded font-thin w-[300px] border border-blue-500 tracking-widest ${activeTask?.id === task.id
                                             ? "bg-charcoalGray"
                                             : "bg-gradient-to-l from-card to-transparent"
                                             // : "bg-card"
                                             }`}
                                     >
-                                        Mine {task.target} F$
+                                        Mine {NumberWithCommas(task.target)} F$
                                     </button>
                                 </li>
                             ))}
@@ -216,7 +260,7 @@ const TaskSection: React.FC = () => {
                         <div>
                             Task Progress: {fCount - (taskStartFCount || 0)} / {activeTask.target}
                         </div>
-                        <div className="bg-charcoalGray h-4 rounded-full shadow-glow w-4/5 mt-2">
+                        <div className="bg-charcoalGray h-3 rounded-full shadow-glow w-4/5 mt-2 mb-5">
                             <div
                                 className="bg-magentaPurple h-full rounded-full transition-all duration-300"
                                 style={{ width: `${taskProgress}%` }}
@@ -224,15 +268,24 @@ const TaskSection: React.FC = () => {
                         </div>
                     </div>
                 )}
-                <div className="flex flex-col gap-4">
-                    <div>
-                        <div className="text-white text-3xl mb-2">Share Referrel</div>
-                        <ReferralLinkShare referralLink="23456789iuygfcvbnm" websiteUrl="https://www.clickerts.com" />
+                
+                   
+                {activeCategory ? null : (  
+                    <div className="flex flex-col gap-4 mt-20">          
+                        <div>
+                            <div className="text-white text-3xl mb-2">Share Referrel</div>
+                            <ReferralLinkShare referralLink="23456789iuygfcvbnm" websiteUrl="https://www.clickerts.com" />
+                        </div>
+                        <div className="flex flex-col h-[140px]"></div>
                     </div>
-                    <div>
-                        <FooterMain />
-                    </div>
+                    
+                )}
+                    
+                
+                <div className="flex-none w-full items-center p-2">                
+                    <FooterMain />   
                 </div>
+               
             </div>
         </div>
     );
