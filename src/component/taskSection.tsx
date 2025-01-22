@@ -184,12 +184,12 @@ const TaskSection: React.FC = () => {
             </div>
              )}
            
-            <div className="flex flex-col  font-roadrage py-4 items-center bg-gray-800 rounded-xl shadow-lg max-h-[600px] w-screen sm:w-[400px] min-h-screen sm:min-h-[calc(100vh-2rem)] sm:my-4 bg-gradient-to-t from-black to-transparent">
+            <div className="flex flex-col justify-between  font-roadrage py-4 items-center bg-gray-800 rounded-xl shadow-lg max-h-[600px] w-screen sm:w-[400px] min-h-screen sm:min-h-[calc(100vh-2rem)] sm:my-4 bg-gradient-to-t from-black to-transparent">
             
                 <div className="flex flex-row gap-8 w-full justify-between">
                     <div className="flex pl-2">
                         <div className="text-2xl text-goldenYellow ">
-                        <img src={NameLogo} alt="Name_logo"  />
+                        <img src={NameLogo} alt="Name_logo"  width={50}/>
                         </div>          
                     </div>
                     <div className="flex pr-2">
@@ -276,13 +276,11 @@ const TaskSection: React.FC = () => {
                             <div className="text-white text-3xl mb-2">Share Referrel</div>
                             <ReferralLinkShare referralLink="23456789iuygfcvbnm" websiteUrl="https://www.clickerts.com" />
                         </div>
-                        <div className="flex flex-col h-[140px]"></div>
                     </div>
                     
                 )}
-                    
-                
-                <div className="flex-none w-full items-center p-2">                
+                               
+                <div className="flex-none w-full items-center p-2 bottom-0 ">                
                     <FooterMain />   
                 </div>
                

@@ -166,7 +166,7 @@ const SolanaConnection = () => {
                 <div className="flex  justify-between">
                     
                     <div className="text-2xl text-goldenYellow ">
-                    <img src={NameLogo} alt="Name_logo"  />
+                    <img src={NameLogo} alt="Name_logo" width={50} />
                     </div> 
                     <div className='flex'>
                     <WalletMultiButton
@@ -218,8 +218,6 @@ const SolanaConnection = () => {
                      </button>
                  </div>             
             </div>
-
-           
         </div>
     );
 };
