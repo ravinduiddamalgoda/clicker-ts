@@ -6,7 +6,6 @@ import SolanaConnection from "./SolanaConnection";
 import * as walletAdapterReact from "@solana/wallet-adapter-react";
 import * as walletAdapterWallets from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { set } from "firebase/database";
 import { myConstants} from "../config/config";
 require("@solana/wallet-adapter-react-ui/styles.css");
 // Type definition for Shamy Wallet data
