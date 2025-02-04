@@ -75,7 +75,7 @@ const MainSection: React.FC = () => {
         <div className="flex flex-row gap-8 w-full justify-between">
             <div className="flex pl-2">
                 <div className="text-2xl text-goldenYellow ">
-                  <img src={NameLogo} alt="Name_logo"  />
+                  <img src={NameLogo} alt="Name_logo"  width={50}/>
                 </div>          
             </div>
             <div className="flex pr-2">
