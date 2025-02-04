@@ -6,6 +6,7 @@ import TaskSection from "./component/taskSection";
 import LoginPage from "./component/LoginPage";
 import RegisterPage from "./component/RegisterPage";
 import { GameContext } from "./context/GameContext";
+import Subscription from "./component/Subscription";
 
 const App = () => {
   const { currentView , isLoggedIn} = useContext(GameContext)!;
@@ -22,6 +23,7 @@ const App = () => {
         {isLoggedIn && currentView === "MainSection" && <MainSection />}
         {isLoggedIn && currentView === "BoostPage" && <BoostPage />}
         {isLoggedIn && currentView === "TaskPage" && <TaskSection />}
+        {isLoggedIn && currentView === "Subscription" && <Subscription />}
         {!isLoggedIn && currentView !== "LoginPage" && (
           <p>You are not logged in. Redirecting to Login Page...</p>
         )}

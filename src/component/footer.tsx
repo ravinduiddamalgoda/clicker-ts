@@ -69,7 +69,9 @@ const Footer: React.FC = () => {
         >
           Boost
         </button>
-        <button className="p-2 w-32 bg-magentaPurple rounded-lg shadow-glow ">
+        <button className="p-2 w-32 bg-magentaPurple rounded-lg shadow-glow "
+        onClick={() => setCurrentView('Subscription')}
+        >
           Subscribe
         </button>
         <button className="p-2 w-32 bg-goldenYellow rounded-lg shadow-goldenGlow">
