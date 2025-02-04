@@ -167,9 +167,9 @@ const TaskSection: React.FC = () => {
         <div className="flex flex-col items-center justify-center text-center">
             {showMessage && (
              <div className="absolute inset-0 z-50 bg-black bg-opacity-95 text-white flex items-center justify-center p-2">
-                <div className="w-full rounded w-[400px] p-2 bg-blue-700 text-center max-w-4xl font-roadrage font-extralight">
+                <div className="w-[400px] rounded p-2 bg-blue-700 text-center max-w-4xl font-roadrage font-extralight">
                     <div >
-                            <div className=" flex flex-row rounded bg-blue-700 w-[370px] p-5 ">                        
+                            <div className=" flex justify-center items-center flex-row rounded bg-blue-700 p-5 ">                        
                                 <div className="text-xl mb-6 space-y-4 tracking-wider">{message}</div>
                         
                                 <button

@@ -115,6 +115,7 @@ const FooterMain: React.FC = () => {
         </button>
         <button
           className="px-2 rounded-lg text-xs"
+          onClick={() => setCurrentView("Subscription")}
           style={{
             textShadow: "0 0 1px black"
           }}

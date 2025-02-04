@@ -30,7 +30,7 @@ const MainSection: React.FC = () => {
     <div className="flex flex-col items-center justify-center text-center relative">
       {showInfo && (
         <div className="absolute inset-0 z-50 bg-black bg-opacity-95 text-white flex items-center justify-center p-2">
-        <div className="w-full rounded w-[400px] p-2 bg-blue-700 text-center max-w-4xl font-roadrage font-extralight">
+        <div className="rounded w-full sm:w-[800px] p-2 bg-blue-700 text-center font-roadrage font-extralight">
           <h2 className="text-xl mb-2 tracking-wider">How to Play Miner Game</h2>
           <div className="text-sm mb-2 space-y-4 tracking-wider">
             <div>
