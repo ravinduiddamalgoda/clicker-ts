@@ -1,5 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import VerifyEmail from './component/verifyEmail'; // Your component to handle verification
+import ReferalLoginPage from './component/referalLogin'; // Your component to handle verification
+
+
+
 import './index.css';
 import App from './App';
 
@@ -15,10 +21,18 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
+  
   <React.StrictMode>
-    <Provider>
-      <App />
-    </Provider>
+    <Router> 
+      <Provider>
+          <Routes> {/* Add Routes */}
+          <Route path="/verify" element={<VerifyEmail />} />
+          <Route path="/referalLogin" element={<ReferalLoginPage />} />
+          <Route path="/*" element={<App />} />
+         
+        </Routes>       
+      </Provider>
+    </Router>
   </React.StrictMode>         
 );
 
