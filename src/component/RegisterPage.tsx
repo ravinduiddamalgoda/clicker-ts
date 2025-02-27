@@ -2,14 +2,14 @@ import React, { useState, useContext } from "react";
 import { GameContext } from "../context/GameContext";
 
 const RegisterPage = () => {
-  const { handleRegister, setCurrentView, handleGoogleAuth } = useContext(GameContext)!;
+  const { setCurrentView, handleGoogleAuth } = useContext(GameContext)!;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await handleRegister(email, password, username);
+   // await handleRegister(email, password, username);
   };
 
   return (

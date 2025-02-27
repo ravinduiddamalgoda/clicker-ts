@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { GameContext } from "../context/GameContext";
+//import { myConstants} from "../config/config";
 import { levelMax } from "../constants/leveldata";
 import Upgrade from '../assets/icons/upgrade.png'
 import Boost from '../assets/icons/boost.png'
@@ -12,9 +13,10 @@ interface GlobalContextProps {
   fCount: number;
   level: number;
   F$rate: number;
-  levelupRate: number;
+ // levelupRate: number;
   myConstants: {
-    miner_base_cost: number;
+    Growth_rate_per_level: number;
+    Max_Level: number;
   };
   setfCount: React.Dispatch<React.SetStateAction<number>>;
   setLevel: React.Dispatch<React.SetStateAction<number>>;
@@ -24,11 +26,12 @@ interface GlobalContextProps {
 }
 
 const FooterMain: React.FC = () => {
+
   const {
     fCount,
     level,
     F$rate,
-    levelupRate,
+   // levelupRate,
     myConstants,
     currentView,
     setfCount,
@@ -36,40 +39,34 @@ const FooterMain: React.FC = () => {
     setF$rate,
     setCurrentView,
   } = useContext(GameContext) as GlobalContextProps;
-  const { handleLogout } = useContext(GameContext)!;
+  const { handleLogout, setUserId } = useContext(GameContext)!;
+  
 
   const updatelevel = () => {
     if (fCount > levelMax[level - 1]) {
       setfCount(fCount-levelMax[level-1]);
       setLevel(level + 1);
+      const rate = F$rate  + (myConstants.Growth_rate_per_level * level);
+   
+      setF$rate(rate);
     } else {
       alert("Not enough F$ to upgrade ;-)");
       
     }
   };
 
-  const [enoughF$, setEnoughF$] = useState(false);
 
-  const requiredF$ = useMemo(
-    () => LevelUpCost(myConstants.miner_base_cost, levelupRate, level),
-    [myConstants.miner_base_cost, levelupRate, level]
-  );
-/*
-  const handleLevelUpgrade = () => {
-    if (enoughF$) {
-      setLevel(level + 1);
-      setfCount(fCount - requiredF$);
-    }
-  };
 
-  useEffect(() => {
-    setEnoughF$(fCount >= requiredF$);
-  }, [fCount, level, requiredF$]);*/
+
+  const isMaxLevel = level >= myConstants.Max_Level;
 
   const logout = () => {
-    localStorage.removeItem("userId");
-    window.location.reload();
+
+    localStorage.removeItem("userId"); 
+    handleLogout();
+
   }
+
 
   return (
     <div className="text-white font-roadrage w-full "> {/*max-w-[400px]*/}
@@ -99,6 +96,7 @@ const FooterMain: React.FC = () => {
           style={{
             textShadow: "0 0 1px black"
           }}
+          disabled={isMaxLevel}
         >
           <img src={Upgrade} alt="Upgrade Icon" className="w-10 h-10 object-contain" />
           Upgrade
@@ -115,13 +113,13 @@ const FooterMain: React.FC = () => {
         </button>
         <button
           className="px-2 rounded-lg text-xs"
-          onClick={() => setCurrentView("Subscription")}
+          onClick={() => setCurrentView("PlayToWinPage")}
           style={{
             textShadow: "0 0 1px black"
           }}
         >
           <img src={Click} alt="Click Icon" className="w-10 h-10 object-contain" />
-          Subscribe
+          Win
         </button>
         <button
           className="px-2 rounded-lg text-xs"

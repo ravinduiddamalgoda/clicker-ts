@@ -6,7 +6,8 @@ import SolanaConnection from "./SolanaConnection";
 import * as walletAdapterReact from "@solana/wallet-adapter-react";
 import * as walletAdapterWallets from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { myConstants } from "../config/config";
+import { set } from "firebase/database";
+import { myConstants} from "../config/config";
 require("@solana/wallet-adapter-react-ui/styles.css");
 // Type definition for Shamy Wallet data
 interface ShamyWalletData {
@@ -17,7 +18,7 @@ interface ShamyWalletData {
 interface GlobalContextProps {
   fCount: number;
   level: number;
-  levelupRate: number;
+ // levelupRate: number;
   myConstants: {
     miner_base_cost: number;
     F$_Multiplier: number;
@@ -31,7 +32,7 @@ interface GlobalContextProps {
 
 const BoostPage: React.FC = () => {
   const { setCurrentView } = useContext(GameContext) as GlobalContextProps;
-  const { fCount, setfCount, levelupRate } = useContext(GameContext) as GlobalContextProps;
+  const { fCount, setfCount } = useContext(GameContext) as GlobalContextProps;
   const { setF$rate } = useContext(GameContext) as GlobalContextProps;
   const [shamyWallet, setShamyWallet] = useState<ShamyWalletData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -61,11 +62,11 @@ const BoostPage: React.FC = () => {
         const data = await getShamyData();
         if (data) {
           setShamyWallet(data);
-          setIsLoading(false);
+          setIsLoading(false);         
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-        setIsLoading(false);
+        setIsLoading(false);        
       }
     };
 
@@ -80,8 +81,8 @@ const BoostPage: React.FC = () => {
 
   const handleBoostF$ = () => {
     if (fCount >= myConstants.F$_boost) {
-
-      setMessage(pre => pre = "Boost applied successfully");
+      
+      setMessage(pre=> pre = "Boost applied successfully");
       setShowMessage(true);
       setAppliedBoost(true);
 
@@ -97,17 +98,17 @@ const BoostPage: React.FC = () => {
 
         if (timeLeft <= 0) {
           clearInterval(interval);
-          removeBoost();
-          setMessage(pre => pre = "Boost has ended");
+          removeBoost();          
+          setMessage(pre=> pre = "Boost has ended");
           setShowMessage(true);
           setAppliedBoost(false);
         }
       }, 1000);
     } else {
-
-      setMessage(pre => pre = "Not enough F$ to boost");
+      
+      setMessage(pre=> pre = "Not enough F$ to boost");
       setShowMessage(true);
-
+      
     }
   };
 
@@ -118,7 +119,7 @@ const BoostPage: React.FC = () => {
     setF$rate(currentRate => currentRate / myConstants.F$_Multiplier);
   }
   const progressPercentage = ((3600000 - remainingTime) / 3600000) * 100; // Calculate progress percentage
-
+  
   const endpoint =
     "https://fittest-falling-yard.solana-mainnet.quiknode.pro/ef9c6c4f493c90e3c52d95a11c5cf76f8a14def6";
   const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
@@ -126,35 +127,16 @@ const BoostPage: React.FC = () => {
     <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
       <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-        <div className="flex flex-col items-center justify-center text-center relative">
-            {showMessage && (
-              <div className="absolute inset-0 z-50 bg-black bg-opacity-95 text-white flex items-center justify-center p-2">
-                <div className="rounded w-[400px] p-2 bg-blue-700 text-center max-w-4xl font-roadrage font-extralight">
-                  <div >
-                    <div className=" flex flex-row rounded bg-blue-700 w-[370px] p-5 ">
-                      <div className="text-xl mb-6 space-y-4 tracking-wider">{message}</div>
-
-                      <button
-                        className="bg-white text-black py-2 px-6 rounded-sm"
-                        onClick={() => setShowMessage(false)}
-                      >
-                        Close
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-            <div className="flex flex-col justify-between gap-3 font-roadrage py-4 items-center bg-gray-800 rounded-xl shadow-lg max-h-[600px] w-screen sm:w-[400px] min-h-screen sm:min-h-[calc(100vh-2rem)] sm:my-4 bg-gradient-to-t from-black to-transparent">
-
-              <div className="flex flex-row justify-between  w-full">
-                <SolanaConnection />
-              </div>
-
+          <div className="flex flex-col items-center justify-center text-center">  
+           
+              <div className="flex flex-row  w-full justify-between  mt-4">
+                    <SolanaConnection />
+                  </div>  
+              
 
               <div className="flex w-full justify-center border-t border-gray-600 text-xl font-medium ">
                 <p className="text-white text-xl p-3">
-                  Boost with F$ <br /> Boost F$ generations X5 for 1 Hour
+                    Boost with F$ <br /> Boost F$ generations X5 for 1 Hour
                 </p>
               </div>
 
@@ -163,30 +145,27 @@ const BoostPage: React.FC = () => {
                   F$: {fCount /*toFixed(2)*/}
                 </div>
 
-                <div className="text-center">
+                <div className="text-center">                  
                   <div className="flex justify-center mt-8">
                     <button
-                      className={` text-white px-8 py-3 rounded text-3xl ${fCount < myConstants.F$_boost ? 'bg-gray-600 cursor-not-allowed' : 'bg-green-700'}`}
+                      className={` text-white px-8 py-3 rounded text-3xl ${ fCount<myConstants.F$_boost ? 'bg-gray-600 cursor-not-allowed':'bg-green-700'}`}
                       onClick={handleBoostF$}
-                      disabled={fCount < myConstants.F$_boost}
+                      disabled = { fCount< myConstants.F$_boost}
                     >
-                      F$ : {myConstants.F$_boost}
+                      F$ : {myConstants.F$_boost.toLocaleString('en-US')}
                     </button>
                     {aapliedBoost && (
-                      <div className="bg-gray-600 h-4 rounded-full shadow-glow w-full mt-4">
-                        <div
-                          className="bg-magentaPurple h-full rounded-full transition-all duration-300"
-                          style={{ width: `${progressPercentage}%` }}
-                        ></div>
-                      </div>
-                    )}
+                    <div className="bg-gray-600 h-4 rounded-full shadow-glow w-full mt-4">
+                      <div
+                        className="bg-magentaPurple h-full rounded-full transition-all duration-300"
+                        style={{ width: `${progressPercentage}%` }}
+                      ></div>
+                    </div>
+                  )}
                   </div>
                 </div>
               </div>
-              <div className="flex-none w-full items-center p-2">
-                <FooterMain />
-              </div>
-            </div>
+           
           </div>
         </WalletModalProvider>
       </walletAdapterReact.WalletProvider>

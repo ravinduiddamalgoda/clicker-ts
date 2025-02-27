@@ -1,5 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
+import SolanaConnection from "./SolanaConnection";
+import * as walletAdapterReact from "@solana/wallet-adapter-react";
+import * as walletAdapterWallets from "@solana/wallet-adapter-wallets";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { GameContext } from "../context/GameContext";
+import StripeButton from "./PayWithStripe";
+
 import { myConstants } from "../config/config";
 import FooterMain from "./footerMain";
 
@@ -10,14 +16,14 @@ interface GlobalContextProps {
     setCurrentView: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Subscription = () => {
+const Subscription = () => {   
     const { fCount, setfCount } = useContext(GameContext) as GlobalContextProps;
     const [subscriptionStatus, setSubscriptionStatus] = useState(false);
     const [additionalEntries, setAdditionalEntries] = useState(0);
     const [transactionHash, setTransactionHash] = useState<string | null>(null);
 
     const gameUSDTAddress = "7ZHcBghNEo8mLgam2qXhzBfpnvZDxJiJMZJs1upXAU4V"; // Replace with your USDT address
-    const entryCost = 5000000; // F$ cost per additional entry
+    const entryCost = myConstants.Additional_entryCost; // F$ cost per additional entry
 
     const handleUSDTSubscription = async () => {
         try {
@@ -51,15 +57,38 @@ const Subscription = () => {
         setAdditionalEntries((prev) => prev + 1);
         alert("Additional entry purchased successfully!");
     };
+    const endpoint ="https://fittest-falling-yard.solana-mainnet.quiknode.pro/ef9c6c4f493c90e3c52d95a11c5cf76f8a14def6";
+    const wallets = [new walletAdapterWallets.PhantomWalletAdapter()];
 
+   
     return (
-        <div className="flex flex-col items-center justify-center text-center relative">
-            <div className="flex flex-col justify-between gap-7 font-roadrage py-4 items-center bg-gray-800 rounded-xl shadow-lg max-h-[600px] w-screen sm:w-[400px] min-h-screen sm:min-h-[calc(100vh-2rem)] sm:my-4 bg-gradient-to-t from-black to-transparent">
-                <h1 className="text-xl text-white">Subscription & Entries</h1>
 
-                {/* Subscription Section */}
-                <div className="mt-4">
-                    <h2 className="text-lg text-blue-400">USDT Subscription</h2>
+        <walletAdapterReact.ConnectionProvider endpoint={endpoint}>
+        <walletAdapterReact.WalletProvider wallets={wallets} autoConnect>
+        <WalletModalProvider>
+  
+        <div className="flex flex-col w-full items-center justify-center text-center">
+        <div className="flex flex-row  justify-center pb-2  ">
+                 fgggsdfdsgdfg
+            </div> 
+            
+            <div className="flex flex-row  justify-center pb-2  ">
+                 <SolanaConnection />
+            </div>  
+            <div className="flex flex-row  justify-center pb-2">
+            <StripeButton/>
+                
+            </div> 
+            <div className="flex flex-row  justify-center ">
+            
+                <button> Pay with F$ </button>
+            </div> 
+            
+                
+
+                <div className="flex w-full justify-center rounded-md mt-1">
+
+                    {/* <h2 className="text-lg text-blue-400">USDT Subscription</h2>
                     <p className="text-white">Subscribe for $10 USDT to unlock features.</p>
                     <button
                         onClick={handleUSDTSubscription}
@@ -68,14 +97,18 @@ const Subscription = () => {
                         disabled={subscriptionStatus}
                     >
                         {subscriptionStatus ? "Subscribed" : "Subscribe"}
-                    </button>
+                    </button> */}
                 </div>
+                
 
-                {/* Entry Purchase Section */}
-                <div className="mt-8">
-                    <h2 className="text-lg text-blue-400">Additional Entries</h2>
-                    <p className="text-white">Each entry costs 5,000,000 F$.</p>
-                    <button
+                {/* Entry Purchase Section
+                <div className="mt-2 mb-2">
+                   <p className="text-white text-sm">Play to WIN!!. Just subscribe 0.50 USDT to Enter the draw.</p>
+                   
+                   <button className=" px-4 py-2 rounded  bg-green-400"
+                    onClick={() => setShowDetails(true)} > Details</button> */}
+
+                    {/* <button
                         onClick={handlePurchaseEntry}
                         className={`mt-2 px-4 py-2 rounded ${fCount >= entryCost ? "bg-indigo-600" : "bg-gray-500 cursor-not-allowed"
                             }`}
@@ -85,8 +118,8 @@ const Subscription = () => {
                     </button>
                     <p className="mt-2 text-green-400">
                         Entries Purchased: {additionalEntries}
-                    </p>
-                </div>
+                    </p> */}
+                {/* </div> */}
 
                 {/* Transaction Details */}
                 {transactionHash && (
@@ -102,11 +135,11 @@ const Subscription = () => {
                         </a>
                     </div>
                 )}
-                <div className="flex-none w-full items-center p-2">
-                    <FooterMain />
-                </div>
-            </div>
+           
         </div>
+    </WalletModalProvider>
+    </walletAdapterReact.WalletProvider>
+    </walletAdapterReact.ConnectionProvider>
     );
 };
 
